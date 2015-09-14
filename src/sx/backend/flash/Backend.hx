@@ -5,6 +5,7 @@ import flash.geom.Matrix;
 import sx.exceptions.OutOfBoundsException;
 import sx.widgets.Widget;
 
+using sx.tools.WidgetTools;
 
 
 /**
@@ -16,7 +17,7 @@ class Backend extends Sprite
     /** Owner of this backend instance */
     private var widget : Widget;
     /** Parent widget */
-    private var wparent : Widget;
+    private var wparent (default,set) : Widget;
     /** Whether widget origin point settings should be used */
     private var useOrigin : Bool = false;
 
@@ -272,6 +273,8 @@ class Backend extends Sprite
         graphics.beginFill(tmpColor);
         graphics.drawRect(0, 0, widget.width.px, widget.height.px);
         graphics.endFill();
+
+        if (widget.positionDependsOnSize()) moved();
     }
 
 
@@ -382,15 +385,31 @@ class Backend extends Sprite
 
         matrix.identity();
         matrix.translate(-widget.origin.left.px, -widget.origin.top.px);
-        if (widget.rotation != 0) {
-            matrix.rotate(widget.rotation * Math.PI / 180);
-        }
         if (widget.scaleX != 0 || widget.scaleY != 0) {
             matrix.scale(widget.scaleX, widget.scaleY);
+        }
+        if (widget.rotation != 0) {
+            matrix.rotate(widget.rotation * Math.PI / 180);
         }
         matrix.translate(widget.left.px, widget.top.px);
 
         transform.matrix = matrix;
+    }
+
+
+    /**
+     * Setter for `wparent`
+     */
+    private function set_wparent (wparent:Widget) : Widget
+    {
+        this.wparent = wparent;
+
+        if (wparent != null) {
+            if (widget.sizeDependsOnParent()) resized();
+            if (widget.positionDependsOnParent()) moved();
+        }
+
+        return wparent;
     }
 
 }//class Backend

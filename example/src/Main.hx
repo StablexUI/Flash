@@ -2,8 +2,6 @@ package ;
 
 import flash.events.Event;
 import flash.Lib;
-import sx.backend.flash.Backend;
-import sx.Sx;
 import sx.widgets.Widget;
 
 
@@ -27,7 +25,7 @@ class Main
         root.top.px  = 200;
         root.width.px  = 100;
         root.height.px = 30;
-        root.origin.set(0, 1);
+        root.origin.set(1, 0.5);
 
         var child = root.addChild(new Widget());
         child.left.px = 50;
@@ -37,9 +35,9 @@ class Main
 
         Lib.current.addChild(root.backend);
 
-        // root.rotation = 45;
+        // // root.rotation = 45;
         root.scaleX = 1.5;
-        // root.scaleY = Math.cos(a);
+        // // root.scaleY = Math.cos(a);
 
         var a = 0.;
         Lib.current.addEventListener(Event.ENTER_FRAME, function(_){
