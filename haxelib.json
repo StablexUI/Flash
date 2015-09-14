@@ -1,0 +1,14 @@
+{
+    "name"         : "stablexui-flash",
+    "url"          : "https://github.com/RealyUniqueName/StablexUI-Flash",
+    "license"      : "MIT",
+    "tags"         : ["flash", "stablexui", "ui", "gui"],
+    "description"  : "Flash backend for StablexUI.",
+    "version"      : "0.1.0",
+    "releasenote"  : "Initial release. ",
+    "classPath"    : "src",
+    "contributors" : ["RealyUniqueName"],
+    "dependencies" : {
+        "stablexui-core"  : ""
+    }
+}

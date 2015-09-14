@@ -1,0 +1,7 @@
+-cp src
+-lib stablexui-tests
+-main StablexUITests
+-D fdb
+-swf build/StablexUITests.swf
+
+-cmd fdb build/StablexUITests.swf

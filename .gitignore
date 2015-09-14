@@ -1,0 +1,11 @@
+dump/*
+*.sublime-*
+build/*
+*.n
+experiments/
+*.hx.tmp
+*.iml
+.idea
+*.js
+*.swf
+*.js.map
