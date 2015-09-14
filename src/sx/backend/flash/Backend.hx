@@ -1,6 +1,8 @@
 package sx.backend.flash;
 
 import flash.display.Sprite;
+import flash.geom.Matrix;
+import sx.exceptions.OutOfBoundsException;
 import sx.widgets.Widget;
 
 
@@ -15,6 +17,14 @@ class Backend extends Sprite
     private var widget : Widget;
     /** Parent widget */
     private var wparent : Widget;
+    /** Whether widget origin point settings should be used */
+    private var useOrigin : Bool = false;
+
+    /** Transformation matrix */
+    private var matrix : Matrix;
+
+    /** Debug color */
+    private var tmpColor : Int = 0;
 
 
     /**
@@ -22,7 +32,11 @@ class Backend extends Sprite
      */
     public function new (widget:Widget) : Void
     {
+        super();
+
         this.widget = widget;
+trace('flash backend');
+        tmpColor = Std.random(0xFFFFFF);
     }
 
 
@@ -53,6 +67,8 @@ class Backend extends Sprite
     {
         addChild(child.backend);
         child.backend.wparent = widget;
+
+        return child;
     }
 
 
@@ -67,9 +83,11 @@ class Backend extends Sprite
      */
     public inline function addWidgetAt (child:Widget, index:Int) : Widget
     {
-        index = clampIndex(index);
-        addChild(child.backend, index);
+        index = clampIndex(index, true);
+        addChildAt(child.backend, index);
         child.backend.wparent = widget;
+
+        return child;
     }
 
 
@@ -83,7 +101,7 @@ class Backend extends Sprite
     {
         if (child.backend.parent == this) {
             removeChild(child.backend);
-            child.wparent = null;
+            child.backend.wparent = null;
 
             return child;
         } else {
@@ -107,7 +125,7 @@ class Backend extends Sprite
             var removed : Backend = cast removeChildAt(index);
             removed.wparent = null;
 
-            return removed;
+            return removed.widget;
         } else {
             return null;
         }
@@ -123,8 +141,8 @@ class Backend extends Sprite
      */
     public inline function removeWidgets (beginIndex:Int = 0, endIndex:Int = -1) : Int
     {
-        beginIndex = clampIndex(beginindex);
-        endIndex   = clampIndex(endIndex);
+        beginIndex = clampIndex(beginIndex, false);
+        endIndex   = clampIndex(endIndex, false);
 
         if (0 <= beginIndex && beginIndex <= endIndex) {
             var removed : Backend;
@@ -147,7 +165,7 @@ class Backend extends Sprite
      */
     public inline function getWidgetIndex (child:Widget) : Int
     {
-        if (child.wparent != widget) {
+        if (child.backend.wparent != widget) {
             throw new sx.exceptions.NotChildException();
         }
 
@@ -168,11 +186,14 @@ class Backend extends Sprite
      */
     public inline function setWidgetIndex (child:Widget, index:Int) : Int
     {
-        if (child.wparent != widget) {
+        if (child.backend.wparent != widget) {
             throw new sx.exceptions.NotChildException();
         }
 
-        index = clampIndex(index);
+        index = clampIndex(index, false);
+        setChildIndex(child.backend, index);
+
+        return index;
     }
 
 
@@ -185,7 +206,15 @@ class Backend extends Sprite
      */
     public inline function getWidgetAt (index:Int) : Null<Widget>
     {
+        if (index < 0 ) index += numChildren;
 
+        if (0 <= index && index < numChildren) {
+            var childBackend : Backend = cast getChildAt(index);
+
+            return childBackend.widget;
+        } else {
+            return null;
+        }
     }
 
 
@@ -196,7 +225,11 @@ class Backend extends Sprite
      */
     public inline function swapWidgets (child1:Widget, child2:Widget) : Void
     {
+        if (child1.backend.wparent != widget || child2.backend.wparent != widget) {
+            throw new sx.exceptions.NotChildException();
+        }
 
+        swapChildren(child1.backend, child2.backend);
     }
 
 
@@ -209,7 +242,14 @@ class Backend extends Sprite
      */
     public inline function swapWidgetsAt (index1:Int, index2:Int) : Void
     {
+        if (index1 < 0) index1 += numChildren;
+        if (index2 < 0) index2 += numChildren;
 
+        if (index1 < 0 || index1 >= numChildren || index2 < 0 || index2 > numChildren) {
+            throw new OutOfBoundsException('Provided index does not exist in display list of this widget.');
+        }
+
+        swapChildrenAt(index1, index2);
     }
 
 
@@ -218,7 +258,8 @@ class Backend extends Sprite
      */
     public inline function originChanged () : Void
     {
-
+        useOrigin = true;
+        updateTransform();
     }
 
 
@@ -227,7 +268,10 @@ class Backend extends Sprite
      */
     public inline function resized () : Void
     {
-
+        graphics.clear();
+        graphics.beginFill(tmpColor);
+        graphics.drawRect(0, 0, widget.width.px, widget.height.px);
+        graphics.endFill();
     }
 
 
@@ -236,7 +280,12 @@ class Backend extends Sprite
      */
     public inline function moved () : Void
     {
-
+        if (useOrigin) {
+            updateTransform();
+        } else {
+            x = widget.left.px;
+            y = widget.top.px;
+        }
     }
 
 
@@ -245,7 +294,11 @@ class Backend extends Sprite
      */
     public inline function rotated () : Void
     {
-
+        if (useOrigin) {
+            updateTransform();
+        } else {
+            rotation = widget.rotation;
+        }
     }
 
 
@@ -254,7 +307,11 @@ class Backend extends Sprite
      */
     public inline function scaledX () : Void
     {
-
+        if (useOrigin) {
+            updateTransform();
+        } else {
+            scaleX = widget.scaleX;
+        }
     }
 
 
@@ -263,7 +320,11 @@ class Backend extends Sprite
      */
     public inline function scaledY () : Void
     {
-
+        if (useOrigin) {
+            updateTransform();
+        } else {
+            scaleY = widget.scaleY;
+        }
     }
 
 
@@ -272,7 +333,7 @@ class Backend extends Sprite
      */
     public inline function alphaChanged () : Void
     {
-
+        alpha = widget.alpha;
     }
 
 
@@ -281,7 +342,7 @@ class Backend extends Sprite
      */
     public inline function visibilityChanged () : Void
     {
-
+        visible = widget.visible;
     }
 
 
@@ -290,23 +351,46 @@ class Backend extends Sprite
      */
     public inline function dispose () : Void
     {
-
+        widget = null;
     }
 
 
     /**
-     * Description
+     * Convert `index` to positive value between 0 and `numChildren`
      */
-    private inline function clampIndex (index:Int) : Int
+    private inline function clampIndex (index:Int, allowOverflow:Bool) : Int
     {
         if (index < 0) {
             index += numChildren;
             if (index < 0) index = 0;
-        } else if (index > numChildren) {
+        } else if (allowOverflow && index > numChildren) {
             index = numChildren;
+        } else if (!allowOverflow && index >= numChildren) {
+            index = numChildren - 1;
         }
 
         return index;
+    }
+
+
+    /**
+     * Update transformation matrix
+     */
+    private inline function updateTransform () : Void
+    {
+        if (matrix == null) matrix = new Matrix();
+
+        matrix.identity();
+        matrix.translate(-widget.origin.left.px, -widget.origin.top.px);
+        if (widget.rotation != 0) {
+            matrix.rotate(widget.rotation * Math.PI / 180);
+        }
+        if (widget.scaleX != 0 || widget.scaleY != 0) {
+            matrix.scale(widget.scaleX, widget.scaleY);
+        }
+        matrix.translate(widget.left.px, widget.top.px);
+
+        transform.matrix = matrix;
     }
 
 }//class Backend

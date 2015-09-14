@@ -1,7 +1,7 @@
--cp src
 -lib stablexui-tests
+-cp src
 -main StablexUITests
 -D fdb
 -swf build/StablexUITests.swf
 
--cmd fdb build/StablexUITests.swf
+-cmd fdb ./build/StablexUITests.swf 2> /dev/null && cat ~/.macromedia/Flash_Player/Logs/flashlog.txt

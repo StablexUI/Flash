@@ -1,0 +1,9 @@
+-cp ../src
+-cp src
+-main Main
+-lib stablexui-core
+-debug
+-swf-header 800:600:30:FFFFFF
+-swf ../build/flash.swf
+
+-cmd fdb ../flash.swf
