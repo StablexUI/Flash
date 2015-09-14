@@ -35,7 +35,7 @@ class Backend extends Sprite
         super();
 
         this.widget = widget;
-trace('flash backend');
+
         tmpColor = Std.random(0xFFFFFF);
     }
 
@@ -147,7 +147,7 @@ trace('flash backend');
         if (0 <= beginIndex && beginIndex <= endIndex) {
             var removed : Backend;
             for (i in beginIndex...(endIndex + 1)) {
-                removed = cast removeChildAt(i);
+                removed = cast removeChildAt(beginIndex);
                 removed.wparent = null;
             }
 
