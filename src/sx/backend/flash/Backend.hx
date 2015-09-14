@@ -44,7 +44,7 @@ class Backend extends Sprite
     /**
      * Get parent widget
      */
-    public inline function getParent () : Null<Widget>
+    public inline function getParentWidget () : Null<Widget>
     {
         return wparent;
     }
@@ -53,7 +53,7 @@ class Backend extends Sprite
     /**
      * Get amount of child widgets in display list of current widget
      */
-    public inline function getNumChildren () : Int
+    public inline function getNumWidgets () : Int
     {
         return numChildren;
     }
@@ -257,7 +257,7 @@ class Backend extends Sprite
     /**
      * Called when origin of a widget was changed
      */
-    public inline function originChanged () : Void
+    public inline function widgetOriginChanged () : Void
     {
         useOrigin = true;
         updateTransform();
@@ -267,21 +267,21 @@ class Backend extends Sprite
     /**
      * Called when widget width/height is changed.
      */
-    public inline function resized () : Void
+    public inline function widgetResized () : Void
     {
         graphics.clear();
         graphics.beginFill(tmpColor);
         graphics.drawRect(0, 0, widget.width.px, widget.height.px);
         graphics.endFill();
 
-        if (widget.positionDependsOnSize()) moved();
+        if (widget.positionDependsOnSize()) widgetMoved();
     }
 
 
     /**
      * Called when widget position is changed.
      */
-    public inline function moved () : Void
+    public inline function widgetMoved () : Void
     {
         if (useOrigin) {
             updateTransform();
@@ -295,7 +295,7 @@ class Backend extends Sprite
     /**
      * Called when widget rotation is changed
      */
-    public inline function rotated () : Void
+    public inline function widgetRotated () : Void
     {
         if (useOrigin) {
             updateTransform();
@@ -308,7 +308,7 @@ class Backend extends Sprite
     /**
      * Called when widget.scaleX is changed
      */
-    public inline function scaledX () : Void
+    public inline function widgetScaledX () : Void
     {
         if (useOrigin) {
             updateTransform();
@@ -321,7 +321,7 @@ class Backend extends Sprite
     /**
      * Called when widget.scaleY is changed
      */
-    public inline function scaledY () : Void
+    public inline function widgetScaledY () : Void
     {
         if (useOrigin) {
             updateTransform();
@@ -334,7 +334,7 @@ class Backend extends Sprite
     /**
      * Called when widget.alpha is changed
      */
-    public inline function alphaChanged () : Void
+    public inline function widgetAlphaChanged () : Void
     {
         alpha = widget.alpha;
     }
@@ -343,7 +343,7 @@ class Backend extends Sprite
     /**
      * Called when widget.visible is changed
      */
-    public inline function visibilityChanged () : Void
+    public inline function widgetVisibilityChanged () : Void
     {
         visible = widget.visible;
     }
@@ -352,7 +352,7 @@ class Backend extends Sprite
     /**
      * Method to cleanup and release this object for garbage collector.
      */
-    public inline function dispose () : Void
+    public inline function widgetDisposed () : Void
     {
         widget = null;
     }
@@ -405,8 +405,8 @@ class Backend extends Sprite
         this.wparent = wparent;
 
         if (wparent != null) {
-            if (widget.sizeDependsOnParent()) resized();
-            if (widget.positionDependsOnParent()) moved();
+            if (widget.sizeDependsOnParent()) widgetResized();
+            if (widget.positionDependsOnParent()) widgetMoved();
         }
 
         return wparent;
