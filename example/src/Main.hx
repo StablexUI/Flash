@@ -2,6 +2,7 @@ package ;
 
 import flash.events.Event;
 import flash.Lib;
+import sx.skins.PaintSkin;
 import sx.widgets.Widget;
 
 
@@ -26,12 +27,14 @@ class Main
         root.width.px  = 100;
         root.height.px = 30;
         root.origin.set(1, 0.5);
+        root.skin = skin(Std.random(0xFFFFFF));
 
         var child = root.addChild(new Widget());
         child.left.px = 50;
         child.bottom.px = -15;
         child.width.pct = 100;
         child.height.pct = 100;
+        child.skin = skin(Std.random(0xFFFFFF));
 
         Lib.current.addChild(root.backend);
 
@@ -51,8 +54,22 @@ class Main
 
             child.alpha = 0.5 + 0.5 * Math.sin(2 * a);
 
+            cast(root.skin, PaintSkin).alpha = 0.5 + 0.5 * Math.sin(4 * a);
+
             a += 0.02;
         });
+    }
+
+
+    /**
+     * Create PaintSkin with specified color
+     */
+    static public function skin (color:Int) : PaintSkin
+    {
+        var skin = new PaintSkin();
+        skin.color = color;
+
+        return skin;
     }
 
 }//class Main

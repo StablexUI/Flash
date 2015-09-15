@@ -21,15 +21,13 @@ class Backend extends Sprite
     /** Whether widget origin point settings should be used */
     private var useOrigin : Bool = false;
 
-    /** Container to attach skins */
+    /** Container for skins */
+    @:allow(sx.backend.flash.skins)
     private var skins : Sprite;
     /** Container for widgets */
     private var widgets : Sprite;
     /** Transformation matrix */
     private var matrix : Matrix;
-
-    /** Debug skin */
-    private var tmpSkin : Sprite;
 
 
     /**
@@ -40,18 +38,12 @@ class Backend extends Sprite
         super();
 
         this.widget = widget;
+
         skins = new Sprite();
         addChild(skins);
+
         widgets = new Sprite();
         addChild(widgets);
-
-
-        tmpSkin = new Sprite();
-        skins.addChild(tmpSkin);
-
-        tmpSkin.graphics.beginFill(Std.random(0xFFFFFF));
-        tmpSkin.graphics.drawRect(0, 0, 1, 1);
-        tmpSkin.graphics.endFill();
     }
 
 
@@ -288,8 +280,10 @@ class Backend extends Sprite
         // graphics.drawRect(0, 0, widget.width.px, widget.height.px);
         // graphics.endFill();
 
-        tmpSkin.width  = widget.width.px;
-        tmpSkin.height = widget.height.px;
+        // tmpSkin.width  = widget.width.px;
+        // tmpSkin.height = widget.height.px;
+
+        if (widget.skin != null) widget.skin.refresh();
 
         if (widget.positionDependsOnSize()) widgetMoved();
     }
@@ -369,9 +363,11 @@ class Backend extends Sprite
     /**
      * Called when skin of a widget was changed
      */
-    public function widgetSkinChanged () : Void
+    public inline function widgetSkinChanged () : Void
     {
-
+        if (widget.skin != null) {
+            widget.skin.refresh();
+        }
     }
 
 
