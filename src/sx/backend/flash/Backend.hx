@@ -350,6 +350,15 @@ class Backend extends Sprite
 
 
     /**
+     * Called when skin of a widget was changed
+     */
+    public function widgetSkinChanged () : Void
+    {
+
+    }
+
+
+    /**
      * Method to cleanup and release this object for garbage collector.
      */
     public inline function widgetDisposed () : Void
