@@ -21,11 +21,15 @@ class Backend extends Sprite
     /** Whether widget origin point settings should be used */
     private var useOrigin : Bool = false;
 
+    /** Container to attach skins */
+    private var skins : Sprite;
+    /** Container for widgets */
+    private var widgets : Sprite;
     /** Transformation matrix */
     private var matrix : Matrix;
 
-    /** Debug color */
-    private var tmpColor : Int = 0;
+    /** Debug skin */
+    private var tmpSkin : Sprite;
 
 
     /**
@@ -36,8 +40,18 @@ class Backend extends Sprite
         super();
 
         this.widget = widget;
+        skins = new Sprite();
+        addChild(skins);
+        widgets = new Sprite();
+        addChild(widgets);
 
-        tmpColor = Std.random(0xFFFFFF);
+
+        tmpSkin = new Sprite();
+        skins.addChild(tmpSkin);
+
+        tmpSkin.graphics.beginFill(Std.random(0xFFFFFF));
+        tmpSkin.graphics.drawRect(0, 0, 1, 1);
+        tmpSkin.graphics.endFill();
     }
 
 
@@ -55,7 +69,7 @@ class Backend extends Sprite
      */
     public inline function getNumWidgets () : Int
     {
-        return numChildren;
+        return widgets.numChildren;
     }
 
 
@@ -66,7 +80,7 @@ class Backend extends Sprite
      */
     public inline function addWidget (child:Widget) : Widget
     {
-        addChild(child.backend);
+        widgets.addChild(child.backend);
         child.backend.wparent = widget;
 
         return child;
@@ -85,7 +99,7 @@ class Backend extends Sprite
     public inline function addWidgetAt (child:Widget, index:Int) : Widget
     {
         index = clampIndex(index, true);
-        addChildAt(child.backend, index);
+        widgets.addChildAt(child.backend, index);
         child.backend.wparent = widget;
 
         return child;
@@ -100,8 +114,8 @@ class Backend extends Sprite
      */
     public inline function removeWidget (child:Widget) : Null<Widget>
     {
-        if (child.backend.parent == this) {
-            removeChild(child.backend);
+        if (child.backend.wparent == widget) {
+            widgets.removeChild(child.backend);
             child.backend.wparent = null;
 
             return child;
@@ -120,10 +134,10 @@ class Backend extends Sprite
      */
     public inline function removeWidgetAt (index:Int) : Null<Widget>
     {
-        if (index < 0) index += numChildren;
+        if (index < 0) index += widgets.numChildren;
 
-        if (index >= 0 && index < numChildren) {
-            var removed : Backend = cast removeChildAt(index);
+        if (index >= 0 && index < widgets.numChildren) {
+            var removed : Backend = cast widgets.removeChildAt(index);
             removed.wparent = null;
 
             return removed.widget;
@@ -148,7 +162,7 @@ class Backend extends Sprite
         if (0 <= beginIndex && beginIndex <= endIndex) {
             var removed : Backend;
             for (i in beginIndex...(endIndex + 1)) {
-                removed = cast removeChildAt(beginIndex);
+                removed = cast widgets.removeChildAt(beginIndex);
                 removed.wparent = null;
             }
 
@@ -170,7 +184,7 @@ class Backend extends Sprite
             throw new sx.exceptions.NotChildException();
         }
 
-        return getChildIndex(child.backend);
+        return widgets.getChildIndex(child.backend);
     }
 
 
@@ -192,7 +206,7 @@ class Backend extends Sprite
         }
 
         index = clampIndex(index, false);
-        setChildIndex(child.backend, index);
+        widgets.setChildIndex(child.backend, index);
 
         return index;
     }
@@ -207,10 +221,10 @@ class Backend extends Sprite
      */
     public inline function getWidgetAt (index:Int) : Null<Widget>
     {
-        if (index < 0 ) index += numChildren;
+        if (index < 0 ) index += widgets.numChildren;
 
-        if (0 <= index && index < numChildren) {
-            var childBackend : Backend = cast getChildAt(index);
+        if (0 <= index && index < widgets.numChildren) {
+            var childBackend : Backend = cast widgets.getChildAt(index);
 
             return childBackend.widget;
         } else {
@@ -230,7 +244,7 @@ class Backend extends Sprite
             throw new sx.exceptions.NotChildException();
         }
 
-        swapChildren(child1.backend, child2.backend);
+        widgets.swapChildren(child1.backend, child2.backend);
     }
 
 
@@ -243,14 +257,14 @@ class Backend extends Sprite
      */
     public inline function swapWidgetsAt (index1:Int, index2:Int) : Void
     {
-        if (index1 < 0) index1 += numChildren;
-        if (index2 < 0) index2 += numChildren;
+        if (index1 < 0) index1 += widgets.numChildren;
+        if (index2 < 0) index2 += widgets.numChildren;
 
-        if (index1 < 0 || index1 >= numChildren || index2 < 0 || index2 > numChildren) {
+        if (index1 < 0 || index1 >= widgets.numChildren || index2 < 0 || index2 > widgets.numChildren) {
             throw new OutOfBoundsException('Provided index does not exist in display list of this widget.');
         }
 
-        swapChildrenAt(index1, index2);
+        widgets.swapChildrenAt(index1, index2);
     }
 
 
@@ -269,10 +283,13 @@ class Backend extends Sprite
      */
     public inline function widgetResized () : Void
     {
-        graphics.clear();
-        graphics.beginFill(tmpColor);
-        graphics.drawRect(0, 0, widget.width.px, widget.height.px);
-        graphics.endFill();
+        // graphics.clear();
+        // graphics.beginFill(tmpColor);
+        // graphics.drawRect(0, 0, widget.width.px, widget.height.px);
+        // graphics.endFill();
+
+        tmpSkin.width  = widget.width.px;
+        tmpSkin.height = widget.height.px;
 
         if (widget.positionDependsOnSize()) widgetMoved();
     }
@@ -373,12 +390,12 @@ class Backend extends Sprite
     private inline function clampIndex (index:Int, allowOverflow:Bool) : Int
     {
         if (index < 0) {
-            index += numChildren;
+            index += widgets.numChildren;
             if (index < 0) index = 0;
-        } else if (allowOverflow && index > numChildren) {
-            index = numChildren;
-        } else if (!allowOverflow && index >= numChildren) {
-            index = numChildren - 1;
+        } else if (allowOverflow && index > widgets.numChildren) {
+            index = widgets.numChildren;
+        } else if (!allowOverflow && index >= widgets.numChildren) {
+            index = widgets.numChildren - 1;
         }
 
         return index;
