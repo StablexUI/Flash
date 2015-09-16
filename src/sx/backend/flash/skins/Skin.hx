@@ -20,7 +20,7 @@ class Skin extends SkinBase
      * Called when skin is set for a `widget`.
      * Don't perform any actions (like drawing) with `widget` here. Just store a reference to `widget` if required.
      */
-    override private function usedBy (widget:Widget) : Void
+    override public function usedBy (widget:Widget) : Void
     {
         this.widget = widget;
     }
@@ -29,7 +29,7 @@ class Skin extends SkinBase
     /**
      * If this skin is no longer in use by current widget
      */
-    override private function removed () : Void
+    override public function removed () : Void
     {
         widget = null;
     }

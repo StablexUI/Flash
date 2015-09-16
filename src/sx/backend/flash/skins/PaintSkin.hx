@@ -30,7 +30,7 @@ class PaintSkin extends PaintSkinBase
     /**
      * Called when skin is set for a `widget`.
      */
-    override private function usedBy (widget:Widget) : Void
+    override public function usedBy (widget:Widget) : Void
     {
         super.usedBy(widget);
 
@@ -41,7 +41,7 @@ class PaintSkin extends PaintSkinBase
     /**
      * If this skin is no longer in use by current widget
      */
-    override private function removed () : Void
+    override public function removed () : Void
     {
         if (canvas.parent != null) {
             canvas.parent.removeChild(canvas);
@@ -54,7 +54,7 @@ class PaintSkin extends PaintSkinBase
     /**
      * Used internally to call `onChange` if it is set when some property of this skin is changed.
      */
-    override private function invokeOnChange () : Void
+    override private function __invokeOnChange () : Void
     {
         canvas.graphics.clear();
         if (color >= 0) {
@@ -63,7 +63,7 @@ class PaintSkin extends PaintSkinBase
             canvas.graphics.endFill();
         }
 
-        super.invokeOnChange();
+        super.__invokeOnChange();
     }
 
 
