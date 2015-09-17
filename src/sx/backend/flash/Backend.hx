@@ -2,7 +2,6 @@ package sx.backend.flash;
 
 import flash.display.Sprite;
 import flash.geom.Matrix;
-import sx.exceptions.OutOfBoundsException;
 import sx.widgets.Widget;
 
 using sx.tools.WidgetTools;
@@ -16,8 +15,6 @@ class Backend extends Sprite
 {
     /** Owner of this backend instance */
     private var widget : Widget;
-    /** Parent widget */
-    private var wparent (default,set) : Widget;
     /** Whether widget origin point settings should be used */
     private var useOrigin : Bool = false;
 
@@ -48,34 +45,13 @@ class Backend extends Sprite
 
 
     /**
-     * Get parent widget
-     */
-    public inline function getParentWidget () : Null<Widget>
-    {
-        return wparent;
-    }
-
-
-    /**
-     * Get amount of child widgets in display list of current widget
-     */
-    public inline function getNumWidgets () : Int
-    {
-        return widgets.numChildren;
-    }
-
-
-    /**
      * Add `child` to display list of this widget.
      *
      * Returns added child.
      */
-    public inline function addWidget (child:Widget) : Widget
+    public inline function addWidget (child:Widget) : Void
     {
         widgets.addChild(child.backend);
-        child.backend.wparent = widget;
-
-        return child;
     }
 
 
@@ -88,13 +64,10 @@ class Backend extends Sprite
      *
      * Returns added `child`.
      */
-    public inline function addWidgetAt (child:Widget, index:Int) : Widget
+    public inline function addWidgetAt (child:Widget, index:Int) : Void
     {
         index = clampIndex(index, true);
         widgets.addChildAt(child.backend, index);
-        child.backend.wparent = widget;
-
-        return child;
     }
 
 
@@ -104,15 +77,10 @@ class Backend extends Sprite
      * Returns removed child.
      * Returns `null` if this widget is not a parent for this `child`.
      */
-    public inline function removeWidget (child:Widget) : Null<Widget>
+    public inline function removeWidget (child:Widget) : Void
     {
-        if (child.backend.wparent == widget) {
+        if (child.parent == widget) {
             widgets.removeChild(child.backend);
-            child.backend.wparent = null;
-
-            return child;
-        } else {
-            return null;
         }
     }
 
@@ -130,7 +98,6 @@ class Backend extends Sprite
 
         if (index >= 0 && index < widgets.numChildren) {
             var removed : Backend = cast widgets.removeChildAt(index);
-            removed.wparent = null;
 
             return removed.widget;
         } else {
@@ -140,42 +107,10 @@ class Backend extends Sprite
 
 
     /**
-     * Remove all children from child with `beginIndex` position to child with `endIndex` (including).
-     *
-     * If index is negative, find required child from the end of display list.
-     *
-     * Returns amount of removed widgets.
-     */
-    public inline function removeWidgets (beginIndex:Int = 0, endIndex:Int = -1) : Int
-    {
-        beginIndex = clampIndex(beginIndex, false);
-        endIndex   = clampIndex(endIndex, false);
-
-        if (0 <= beginIndex && beginIndex <= endIndex) {
-            var removed : Backend;
-            for (i in beginIndex...(endIndex + 1)) {
-                removed = cast widgets.removeChildAt(beginIndex);
-                removed.wparent = null;
-            }
-
-            return endIndex - beginIndex + 1;
-        } else {
-            return 0;
-        }
-    }
-
-
-    /**
      * Get index of a `child` in a list of children of this widget.
-     *
-     * @throws sx.exceptions.NotChildException If `child` is not direct child of this widget.
      */
     public inline function getWidgetIndex (child:Widget) : Int
     {
-        if (child.backend.wparent != widget) {
-            throw new sx.exceptions.NotChildException();
-        }
-
         return widgets.getChildIndex(child.backend);
     }
 
@@ -188,15 +123,9 @@ class Backend extends Sprite
      * If `index` is negative and calculated position is less than zero, `child` will be added at the beginning of display list.
      *
      * Returns new position of a `child` in display list.
-     *
-     * @throws sx.exceptions.NotChildException If `child` is not direct child of this widget.
      */
     public inline function setWidgetIndex (child:Widget, index:Int) : Int
     {
-        if (child.backend.wparent != widget) {
-            throw new sx.exceptions.NotChildException();
-        }
-
         index = clampIndex(index, false);
         widgets.setChildIndex(child.backend, index);
 
@@ -227,15 +156,9 @@ class Backend extends Sprite
 
     /**
      * Swap two specified child widgets in display list.
-     *
-     * @throws sx.exceptions.NotChildException() If eighter `child1` or `child2` are not a child of this widget.
      */
     public inline function swapWidgets (child1:Widget, child2:Widget) : Void
     {
-        if (child1.backend.wparent != widget || child2.backend.wparent != widget) {
-            throw new sx.exceptions.NotChildException();
-        }
-
         widgets.swapChildren(child1.backend, child2.backend);
     }
 
@@ -243,19 +166,10 @@ class Backend extends Sprite
     /**
      * Swap children at specified indexes.
      *
-     * If indices are negative, required children are calculated from the end of display list.
-     *
-     * @throws sx.exceptions.OutOfBoundsException
+     * Indicies must be positive.
      */
     public inline function swapWidgetsAt (index1:Int, index2:Int) : Void
     {
-        if (index1 < 0) index1 += widgets.numChildren;
-        if (index2 < 0) index2 += widgets.numChildren;
-
-        if (index1 < 0 || index1 >= widgets.numChildren || index2 < 0 || index2 > widgets.numChildren) {
-            throw new OutOfBoundsException('Provided index does not exist in display list of this widget.');
-        }
-
         widgets.swapChildrenAt(index1, index2);
     }
 
@@ -275,14 +189,6 @@ class Backend extends Sprite
      */
     public inline function widgetResized () : Void
     {
-        // graphics.clear();
-        // graphics.beginFill(tmpColor);
-        // graphics.drawRect(0, 0, widget.width.px, widget.height.px);
-        // graphics.endFill();
-
-        // tmpSkin.width  = widget.width.px;
-        // tmpSkin.height = widget.height.px;
-
         if (widget.skin != null) widget.skin.refresh();
 
         if (widget.positionDependsOnSize()) widgetMoved();
@@ -416,22 +322,6 @@ class Backend extends Sprite
         matrix.translate(widget.left.px, widget.top.px);
 
         transform.matrix = matrix;
-    }
-
-
-    /**
-     * Setter for `wparent`
-     */
-    private function set_wparent (wparent:Widget) : Widget
-    {
-        this.wparent = wparent;
-
-        if (wparent != null) {
-            if (widget.sizeDependsOnParent()) widgetResized();
-            if (widget.positionDependsOnParent()) widgetMoved();
-        }
-
-        return wparent;
     }
 
 }//class Backend
