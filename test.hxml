@@ -1,6 +1,8 @@
 -lib stablexui-tests
 -cp src
+-cp tests
 -main StablexUITests
+-D HUNIT_TEST_DIR=tests
 -D fdb
 -swf build/StablexUITests.swf
 
