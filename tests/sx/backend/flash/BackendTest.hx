@@ -47,8 +47,7 @@ class BackendTest extends TestCase
     {
         var widget = new Widget();
         var skin   = mock(Skin).create();
-        //set skin without setter
-        Reflect.setField(widget, 'skin', skin);
+        widget.skin = skin;
 
         expect(skin).refresh().once();
 
