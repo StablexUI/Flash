@@ -190,8 +190,6 @@ class Backend extends Sprite
     public inline function widgetResized () : Void
     {
         refreshSkin();
-
-        if (widget.positionDependsOnSize()) widgetMoved();
     }
 
 
