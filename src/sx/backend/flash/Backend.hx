@@ -1,5 +1,6 @@
 package sx.backend.flash;
 
+import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.geom.Matrix;
 import sx.widgets.Widget;
@@ -18,9 +19,8 @@ class Backend extends Sprite
     /** Whether widget origin point settings should be used */
     private var useOrigin : Bool = false;
 
-    /** Container for skins */
-    @:allow(sx.backend.flash.skins)
-    private var skins : Sprite;
+    /** Skin's display object */
+    private var skin : DisplayObject;
     /** Container for widgets */
     private var widgets : Sprite;
     /** Transformation matrix */
@@ -35,9 +35,6 @@ class Backend extends Sprite
         super();
 
         this.widget = widget;
-
-        skins = new Sprite();
-        addChild(skins);
 
         widgets = new Sprite();
         addChild(widgets);
@@ -328,5 +325,16 @@ class Backend extends Sprite
     {
         if (widget.skin != null) widget.skin.refresh();
     }
+
+
+    /**
+     * Add skin's display object
+     */
+    @:allow(sx.backend.flash)
+    private inline function setSkinObject (object:DisplayObject) : Void
+    {
+        addChildAt(object, 0);
+    }
+
 
 }//class Backend

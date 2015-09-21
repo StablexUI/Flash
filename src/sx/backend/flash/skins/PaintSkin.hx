@@ -34,7 +34,7 @@ class PaintSkin extends PaintSkinBase
     {
         super.usedBy(widget);
 
-        widget.backend.skins.addChild(canvas);
+        widget.backend.setSkinObject(canvas);
     }
 
 
