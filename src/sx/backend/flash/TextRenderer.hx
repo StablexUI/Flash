@@ -103,8 +103,10 @@ class TextRenderer extends TextField implements ITextRenderer
      */
     public function setAvailableAreaWidth (width:Float) : Void
     {
-        wordWrap   = false;
+        wordWrap   = true;
         this.width = width;
+
+        __invokeOnResize();
     }
 
 
