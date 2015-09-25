@@ -64,8 +64,13 @@ class Main
         label.text     = 'Hello, world!';
         label.left.dip = 10;
         label.top.dip  = 10;
-        label.width.dip = 50;
         Lib.current.addChild(label.backend);
+
+        var format = label.getTextFormat();
+        format.size = 22;
+        format.bold = true;
+        format.color = 0x0000FF;
+        label.setTextFormat(format);
     }
 
 

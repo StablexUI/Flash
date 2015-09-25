@@ -35,6 +35,8 @@ class TextRenderer extends TextField implements ITextRenderer
 
         __textWidget = textWidget;
         __textWidget.backend.addRendererObject(this);
+
+        __textWidget.autoSize.onChange.add(__widgetAutoSizeChanged);
     }
 
 
@@ -94,7 +96,6 @@ class TextRenderer extends TextField implements ITextRenderer
     public function onResize (callback:Null<Float->Float->Void>) : Void
     {
         __onResize = callback;
-        __updateWordWrap();
     }
 
 
@@ -103,9 +104,7 @@ class TextRenderer extends TextField implements ITextRenderer
      */
     public function setAvailableAreaWidth (width:Float) : Void
     {
-        wordWrap   = true;
         this.width = width;
-
         __invokeOnResize();
     }
 
@@ -133,12 +132,14 @@ class TextRenderer extends TextField implements ITextRenderer
     /**
      * Update `wordWrap` flag according to text widget `autoSize.width` setting
      */
-    private inline function __updateWordWrap () : Void
+    private function __widgetAutoSizeChanged (widthChanged:Bool, heightChanged:Bool) : Void
     {
-        if (__textWidget.autoSize.width) {
-            if (wordWrap) wordWrap = false;
-        } else {
-            if (!wordWrap) wordWrap = true;
+        if (widthChanged) {
+            if (__textWidget.autoSize.width) {
+                if (!wordWrap) wordWrap = true;
+            } else {
+                if (wordWrap) wordWrap = false;
+            }
         }
     }
 
