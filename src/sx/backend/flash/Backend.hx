@@ -19,8 +19,6 @@ class Backend extends Sprite
     /** Whether widget origin point settings should be used */
     private var useOrigin : Bool = false;
 
-    /** Skin's display object */
-    private var skin : DisplayObject;
     /** Container for widgets */
     private var widgets : Sprite;
     /** Transformation matrix */
@@ -334,6 +332,16 @@ class Backend extends Sprite
     private inline function setSkinObject (object:DisplayObject) : Void
     {
         addChildAt(object, 0);
+    }
+
+
+    /**
+     * Add renderer's display object
+     */
+    @:allow(sx.backend.flash)
+    private inline function addRendererObject (object:DisplayObject) : Void
+    {
+        addChildAt(object, getChildIndex(widgets));
     }
 
 

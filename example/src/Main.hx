@@ -3,6 +3,7 @@ package ;
 import flash.events.Event;
 import flash.Lib;
 import sx.skins.PaintSkin;
+import sx.widgets.Text;
 import sx.widgets.Widget;
 
 
@@ -58,6 +59,13 @@ class Main
 
             a += 0.02;
         });
+
+        var label = new Text();
+        label.text     = 'Hello, world!';
+        label.left.dip = 10;
+        label.top.dip  = 10;
+        label.width.dip = 50;
+        Lib.current.addChild(label.backend);
     }
 
 
