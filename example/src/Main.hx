@@ -64,12 +64,17 @@ class Main
         label.text     = 'Hello, world!';
         label.left.dip = 10;
         label.top.dip  = 10;
+        label.skin     = skin(Std.random(0xFFFFFF));
+        label.padding.vertical.dip = 15;
+        label.padding.horizontal.dip = 20;
+        // label.renderer.border = true;
+        // label.renderer.borderColor = 0xFF0000;
         Lib.current.addChild(label.backend);
 
         var format = label.getTextFormat();
         format.size = 22;
         format.bold = true;
-        format.color = 0x0000FF;
+        format.color = Std.random(0xFFFFFF);
         label.setTextFormat(format);
     }
 

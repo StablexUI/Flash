@@ -71,6 +71,16 @@ class TextRenderer extends TextField implements ITextRenderer
 
 
     /**
+     * Change top-left corner position (pixels) of rendered content inside an owner widget.
+     */
+    public function setPosition (x:Float, y:Float) : Void
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+
+    /**
      * Returns content width in pixels.
      */
     public function getWidth () : Float
