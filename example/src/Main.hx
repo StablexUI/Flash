@@ -3,7 +3,9 @@ package ;
 import flash.events.Event;
 import flash.Lib;
 import flash.text.TextFormatAlign;
+import sx.backend.BitmapData;
 import sx.skins.PaintSkin;
+import sx.widgets.Bmp;
 import sx.widgets.Text;
 import sx.widgets.Widget;
 
@@ -77,6 +79,17 @@ class Main
         label3.setTextFormat(format);
         Lib.current.addChild(label3.backend);
 
+        var bmp = new Bmp();
+        var data = new BitmapData(100, 50);
+        data.perlinNoise(100, 80, 6, Math.floor(Math.random() * 10), false, true);
+        bmp.bitmapData = data;
+        bmp.left.px    = 500;
+        bmp.top.px     = 400;
+        bmp.padding.px = 10;
+        bmp.skin = skin(Std.random(0xFFFFFF));
+        bmp.keepAspect = false;
+        Lib.current.addChild(bmp.backend);
+
 
         var a = 0.;
         var labelWidth = 0.;
@@ -84,6 +97,9 @@ class Main
             label1.width.px = 100 + 25 * Math.sin(a);
             label2.width.px = 100 + 25 * Math.cos(a);
             label3.width.px = 100 + 25 * Math.sin(a);
+
+            bmp.width.px  = 100 + 25 * Math.cos(a);
+            bmp.height.px = 50 + 25 * Math.sin(a);
 
             root.rotation += 0.2;
             root.width.px = 100 + 20 * Math.sin(a);
