@@ -2,9 +2,13 @@ package sx.backend.flash;
 
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
+import flash.text.TextFormatAlign;
 import sx.backend.interfaces.ITextRenderer;
 import sx.backend.TextFormat;
+import sx.properties.metric.Units;
+import sx.properties.metric.Size;
 import sx.widgets.Text;
+import sx.widgets.Widget;
 
 
 
@@ -18,6 +22,8 @@ class TextRenderer extends TextField implements ITextRenderer
     private var __textWidget : Text;
     /** Callback to invoke when content size changes */
     private var __onResize : Null<Float->Float->Void>;
+    /** Cached value for text alignment */
+    private var __align : TextFormatAlign;
 
 
     /**
@@ -32,11 +38,14 @@ class TextRenderer extends TextField implements ITextRenderer
         multiline  = true;
         selectable = false;
         autoSize   = TextFieldAutoSize.LEFT;
+        __align    = TextFormatAlign.LEFT;
 
         __textWidget = textWidget;
         __textWidget.backend.addRendererObject(this);
 
         __textWidget.autoSize.onChange.add(__widgetAutoSizeChanged);
+        __textWidget.padding.onChange.add(__widgetPaddingChanged);
+        __textWidget.onResize.add(__widgetResized);
     }
 
 
@@ -66,17 +75,13 @@ class TextRenderer extends TextField implements ITextRenderer
     {
         defaultTextFormat = format;
         setTextFormat(format);
+
         __invokeOnResize();
-    }
 
-
-    /**
-     * Change top-left corner position (pixels) of rendered content inside an owner widget.
-     */
-    public function setPosition (x:Float, y:Float) : Void
-    {
-        this.x = x;
-        this.y = y;
+        if (__align != format.align) {
+            __align = format.align;
+            __updatePosition();
+        }
     }
 
 
@@ -120,7 +125,7 @@ class TextRenderer extends TextField implements ITextRenderer
 
 
     /**
-     * Notify renderer about changing height area available for content (pixels).
+     * Notify renderer about changing height of the area available for content (pixels).
      */
     public function setAvailableAreaHeight (height:Float) : Void
     {
@@ -155,11 +160,50 @@ class TextRenderer extends TextField implements ITextRenderer
 
 
     /**
+     * Update text position if padding changed
+     */
+    private function __widgetPaddingChanged (horizontalChanged:Bool, verticalChanged:Bool) : Void
+    {
+        __updatePosition();
+    }
+
+
+    /**
+     * Update text position if widget resized.
+     */
+    private function __widgetResized (widget:Widget, changed:Size, previousUnits:Units, previousValue:Float) : Void
+    {
+        switch (__align) {
+            case TextFormatAlign.LEFT :
+            default                   : __updatePosition();
+        }
+    }
+
+
+    /**
      * Invoke `onResize` if it's set
      */
     private inline function __invokeOnResize () : Void
     {
         if (__onResize != null) __onResize(getWidth(), getHeight());
+    }
+
+
+    /**
+     * Update text position inside text widget
+     */
+    private inline function __updatePosition () : Void
+    {
+        y = __textWidget.padding.top.px;
+
+        switch (__align) {
+            case TextFormatAlign.RIGHT:
+                x = __textWidget.width.px - __textWidget.padding.right.px - getWidth();
+            case TextFormatAlign.CENTER:
+                x = 0.5 * (__textWidget.width.px - getWidth());
+            default :
+                x = __textWidget.padding.left.px;
+        }
     }
 
 }//class TextRenderer

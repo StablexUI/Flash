@@ -2,6 +2,7 @@ package ;
 
 import flash.events.Event;
 import flash.Lib;
+import flash.text.TextFormatAlign;
 import sx.skins.PaintSkin;
 import sx.widgets.Text;
 import sx.widgets.Widget;
@@ -39,18 +40,53 @@ class Main
 
         Lib.current.addChild(root.backend);
 
-        // // root.rotation = 45;
-        root.scaleX = 1.5;
-        // // root.scaleY = Math.cos(a);
+
+        //left aligned text
+        var label1 = new Text();
+        label1.text      = 'Left aligned';
+        label1.left.dip  = 10;
+        label1.top.dip   = 10;
+        label1.width.dip = 100;
+        label1.skin      = skin(Std.random(0xFFFFFF));
+        var format = label1.getTextFormat();
+        format.align = TextFormatAlign.LEFT;
+        label1.setTextFormat(format);
+        Lib.current.addChild(label1.backend);
+
+        //center aligned text
+        var label2 = new Text();
+        label2.text      = 'Center aligned';
+        label2.left.dip  = 150;
+        label2.top.dip   = 10;
+        label2.width.dip = 100;
+        label2.skin      = skin(Std.random(0xFFFFFF));
+        var format = label2.getTextFormat();
+        format.align = TextFormatAlign.CENTER;
+        label2.setTextFormat(format);
+        Lib.current.addChild(label2.backend);
+
+        //right aligned text
+        var label3 = new Text();
+        label3.text      = 'Right aligned';
+        label3.left.dip  = 300;
+        label3.top.dip   = 10;
+        label3.width.dip = 100;
+        label3.skin      = skin(Std.random(0xFFFFFF));
+        var format = label3.getTextFormat();
+        format.align = TextFormatAlign.RIGHT;
+        label3.setTextFormat(format);
+        Lib.current.addChild(label3.backend);
+
 
         var a = 0.;
+        var labelWidth = 0.;
         Lib.current.addEventListener(Event.ENTER_FRAME, function(_){
-            // root.left.px += 0.1;
-            // root.top.px += 0.1;
+            label1.width.px = 100 + 25 * Math.sin(a);
+            label2.width.px = 100 + 25 * Math.cos(a);
+            label3.width.px = 100 + 25 * Math.sin(a);
 
             root.rotation += 0.2;
             root.width.px = 100 + 20 * Math.sin(a);
-            // root.scaleX = 1 + Math.sin(a);
             root.scaleY = 1 + 0.5 * Math.cos(a);
 
             child.alpha = 0.5 + 0.5 * Math.sin(2 * a);
@@ -59,23 +95,6 @@ class Main
 
             a += 0.02;
         });
-
-        var label = new Text();
-        label.text     = 'Hello, world!';
-        label.left.dip = 10;
-        label.top.dip  = 10;
-        label.skin     = skin(Std.random(0xFFFFFF));
-        label.padding.vertical.dip = 15;
-        label.padding.horizontal.dip = 20;
-        // label.renderer.border = true;
-        // label.renderer.borderColor = 0xFF0000;
-        Lib.current.addChild(label.backend);
-
-        var format = label.getTextFormat();
-        format.size = 22;
-        format.bold = true;
-        format.color = Std.random(0xFFFFFF);
-        label.setTextFormat(format);
     }
 
 
