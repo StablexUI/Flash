@@ -97,8 +97,8 @@ class Main
             label2.width.px = 100 + 25 * Math.cos(a);
             label3.width.px = 100 + 25 * Math.sin(a);
 
-            bmp.width.px  = 100 + 25 * Math.cos(a);
-            bmp.height.px = 50 + 25 * Math.sin(a);
+            // bmp.width.px  = 100 + 25 * Math.cos(a);
+            // bmp.height.px = 50 + 25 * Math.sin(a);
 
             root.rotation += 0.2;
             root.width.px = 100 + 20 * Math.sin(a);

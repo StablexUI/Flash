@@ -4,6 +4,7 @@
 -main Main
 -debug
 -swf-header 800:600:60:FFFFFF
+-swf-version 11.3
 -swf flash.swf
 
 -cmd fdb flash.swf

@@ -8,6 +8,7 @@ import sx.backend.Backend;
 import sx.backend.BitmapRenderer;
 import sx.backend.interfaces.IBackendManager;
 import sx.backend.TextRenderer;
+import sx.input.PointerManager;
 import sx.widgets.Bmp;
 import sx.widgets.Text;
 import sx.widgets.Widget;
@@ -20,6 +21,9 @@ import sx.widgets.Widget;
  */
 class BackendManager implements IBackendManager
 {
+    /** If mouse events listeners attached to stage */
+    static private var __mouseEventsHandled : Bool = false;
+
 
     /**
      * Constructor
@@ -58,21 +62,27 @@ class BackendManager implements IBackendManager
 
 
     /**
-     * Translate mouse flash events to StablexUI signals
+     * Translate flash mouse events to StablexUI signals
      */
-    private function __handleMouse () : Void
+    static private function __handleMouse () : Void
     {
+        if (__mouseEventsHandled) return;
+        __mouseEventsHandled = true;
+
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, function (e:MouseEvent) {
-            var widget = ownerWidget(e.target);
-            // if (widget != null) {
-            //     widget.onPress.bubbleDispatch(onPress, widget);
-            // }
+            PointerManager.pressed(ownerWidget(e.target));
         });
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, function (e:MouseEvent) {
-            var widget = ownerWidget(e.target);
-            // if (widget != null) {
-            //     widget.onRelease.bubbleDispatch(onPress, widget);
-            // }
+            PointerManager.released(ownerWidget(e.target));
+        });
+        //for flash >= 11.3
+        if (MouseEvent.RELEASE_OUTSIDE != null) {
+            Lib.current.stage.addEventListener(MouseEvent.RELEASE_OUTSIDE, function (e:MouseEvent) {
+                PointerManager.released(null);
+            });
+        }
+        Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE, function (e:MouseEvent) {
+            PointerManager.moved(ownerWidget(e.target));
         });
     }
 
@@ -81,7 +91,7 @@ class BackendManager implements IBackendManager
      * Find widget which contains specified `object`
      */
     @:access(sx.backend.flash.Backend.widget)
-    private function ownerWidget (object:DisplayObject) : Null<Widget>
+    static private function ownerWidget (object:DisplayObject) : Null<Widget>
     {
         while (object != null) {
             if (untyped __is__(object, Backend)) {
