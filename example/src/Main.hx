@@ -90,7 +90,6 @@ class Main
         bmp.keepAspect = false;
         Lib.current.addChild(bmp.backend);
 
-
         var a = 0.;
         var labelWidth = 0.;
         Lib.current.addEventListener(Event.ENTER_FRAME, function(_){
