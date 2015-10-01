@@ -26,11 +26,37 @@ class BackendManager implements IBackendManager
 
 
     /**
+     * Translate flash mouse & touch events to StablexUI signals
+     */
+    static public function handlePointers () : Void
+    {
+        if (__mouseEventsHandled) return;
+        __mouseEventsHandled = true;
+
+        Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, function (e:MouseEvent) {
+            PointerManager.pressed(ownerWidget(e.target));
+        });
+        Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, function (e:MouseEvent) {
+            PointerManager.released(ownerWidget(e.target));
+        });
+        //for flash >= 11.3
+        if (MouseEvent.RELEASE_OUTSIDE != null) {
+            Lib.current.stage.addEventListener(MouseEvent.RELEASE_OUTSIDE, function (e:MouseEvent) {
+                PointerManager.released(null);
+            });
+        }
+        Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE, function (e:MouseEvent) {
+            PointerManager.moved(ownerWidget(e.target));
+        });
+    }
+
+
+    /**
      * Constructor
      */
     public function new () : Void
     {
-        __handleMouse();
+        handlePointers();
     }
 
 
@@ -58,32 +84,6 @@ class BackendManager implements IBackendManager
     public function bitmapRenderer (bmp:Bmp) : BitmapRenderer
     {
         return new BitmapRenderer(bmp);
-    }
-
-
-    /**
-     * Translate flash mouse events to StablexUI signals
-     */
-    static private function __handleMouse () : Void
-    {
-        if (__mouseEventsHandled) return;
-        __mouseEventsHandled = true;
-
-        Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, function (e:MouseEvent) {
-            PointerManager.pressed(ownerWidget(e.target));
-        });
-        Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, function (e:MouseEvent) {
-            PointerManager.released(ownerWidget(e.target));
-        });
-        //for flash >= 11.3
-        if (MouseEvent.RELEASE_OUTSIDE != null) {
-            Lib.current.stage.addEventListener(MouseEvent.RELEASE_OUTSIDE, function (e:MouseEvent) {
-                PointerManager.released(null);
-            });
-        }
-        Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE, function (e:MouseEvent) {
-            PointerManager.moved(ownerWidget(e.target));
-        });
     }
 
 

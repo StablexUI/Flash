@@ -2,6 +2,7 @@
 -cp src
 -D HUNIT_TEST_DIR=tests
 -D fdb
+-swf-version 11.3
 -swf build/StablexUITests.swf
 
 -cmd fdb ./build/StablexUITests.swf 2> /dev/null && cat ~/.macromedia/Flash_Player/Logs/flashlog.txt
