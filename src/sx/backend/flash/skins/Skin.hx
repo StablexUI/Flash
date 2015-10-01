@@ -12,29 +12,6 @@ import sx.widgets.Widget;
 class Skin extends SkinBase
 {
 
-    /** Widget this skin is currently applied to */
-    private var widget : Widget;
-
-
-    /**
-     * Called when skin is set for a `widget`.
-     * Don't perform any actions (like drawing) with `widget` here. Just store a reference to `widget` if required.
-     */
-    override public function usedBy (widget:Widget) : Void
-    {
-        this.widget = widget;
-    }
-
-
-    /**
-     * If this skin is no longer in use by current widget
-     */
-    override public function removed () : Void
-    {
-        widget = null;
-    }
-
-
     /**
      * Called when skin visualization should be updated
      */

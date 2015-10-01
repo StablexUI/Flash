@@ -72,8 +72,8 @@ class PaintSkin extends PaintSkinBase
      */
     override private function refresh () : Void
     {
-        canvas.width  = widget.width.px;
-        canvas.height = widget.height.px;
+        canvas.width  = __widget.width.px;
+        canvas.height = __widget.height.px;
     }
 
 
