@@ -12,14 +12,5 @@ import sx.widgets.Widget;
 class Skin extends SkinBase
 {
 
-    /**
-     * Called when skin visualization should be updated
-     */
-    @:allow(sx.backend.flash.Backend)
-    private function refresh () : Void
-    {
-
-    }
-
 
 }//class Skin

@@ -184,7 +184,7 @@ class Backend extends Sprite
      */
     public inline function widgetResized () : Void
     {
-        refreshSkin();
+
     }
 
 
@@ -264,7 +264,7 @@ class Backend extends Sprite
      */
     public inline function widgetSkinChanged () : Void
     {
-        refreshSkin();
+
     }
 
 
@@ -313,15 +313,6 @@ class Backend extends Sprite
         matrix.translate(widget.left.px, widget.top.px);
 
         transform.matrix = matrix;
-    }
-
-
-    /**
-     * Update skin if set
-     */
-    private inline function refreshSkin () : Void
-    {
-        if (widget.skin != null) widget.skin.refresh();
     }
 
 

@@ -52,28 +52,16 @@ class PaintSkin extends PaintSkinBase
 
 
     /**
-     * Used internally to call `onChange` if it is set when some property of this skin is changed.
+     * Called when skin visualization should be updated because of widget changes.
      */
-    override private function __invokeOnChange () : Void
+    override public function refresh () : Void
     {
         canvas.graphics.clear();
         if (color >= 0) {
             canvas.graphics.beginFill(color, alpha);
-            canvas.graphics.drawRect(0, 0, 1, 1);
+            canvas.graphics.drawRect(0, 0, __widget.width.px, __widget.height.px);
             canvas.graphics.endFill();
         }
-
-        super.__invokeOnChange();
-    }
-
-
-    /**
-     * Called when skin visualization should be updated because of widget changes.
-     */
-    override private function refresh () : Void
-    {
-        canvas.width  = __widget.width.px;
-        canvas.height = __widget.height.px;
     }
 
 
