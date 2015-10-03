@@ -17,6 +17,7 @@ class TextRendererTest extends TestCase
     public function wordWrap_setTextWidgetAutoSizeWidthTrue_setWordWrapTrue () : Void
     {
         var label = new Text();
+        label.autoSize = false;
         label.renderer.wordWrap = false;
 
         label.autoSize.width = true;
