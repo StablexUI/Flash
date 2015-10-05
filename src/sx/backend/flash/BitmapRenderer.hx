@@ -28,7 +28,7 @@ class BitmapRenderer extends Bitmap implements IBitmapRenderer
         __bmp = bmp;
         __bmp.backend.addRendererObject(this);
 
-        __bmp.padding.onComponentsChange.add(__widgetPaddingChanged);
+        __bmp.padding.onChange.add(__widgetPaddingChanged);
     }
 
 

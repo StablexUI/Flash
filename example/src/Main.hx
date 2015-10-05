@@ -85,10 +85,7 @@ class Main
         bmp.bitmapData = data;
         bmp.left    = 500;
         bmp.top     = 400;
-        // bmp.padding.px = 10;
-        // bmp.padding = 50.;
-        bmp.padding.vertical = 10;
-        bmp.padding.horizontal = 20;
+        bmp.padding = 10;
         bmp.skin = skin(Std.random(0xFFFFFF));
         bmp.keepAspect = false;
         Lib.current.addChild(bmp.backend);

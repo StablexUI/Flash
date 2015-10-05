@@ -44,7 +44,7 @@ class TextRenderer extends TextField implements ITextRenderer
         __textWidget.backend.addRendererObject(this);
 
         __textWidget.autoSize.onChange.add(__widgetAutoSizeChanged);
-        __textWidget.padding.onComponentsChange.add(__widgetPaddingChanged);
+        __textWidget.padding.onChange.add(__widgetPaddingChanged);
         __textWidget.onResize.add(__widgetResized);
     }
 
