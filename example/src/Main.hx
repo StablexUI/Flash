@@ -4,8 +4,10 @@ import flash.events.Event;
 import flash.Lib;
 import flash.text.TextFormatAlign;
 import sx.backend.BitmapData;
+import sx.layout.LineLayout;
 import sx.skins.PaintSkin;
 import sx.widgets.Bmp;
+import sx.widgets.Button;
 import sx.widgets.Text;
 import sx.widgets.Widget;
 
@@ -31,14 +33,14 @@ class Main
         root.width = 100;
         root.height = 30;
         root.origin.set(1, 0.5);
-        root.skin = skin(Std.random(0xFFFFFF));
+        root.skin = skin();
 
         var child = root.addChild(new Widget());
         child.left = 50;
         child.bottom = -15;
         child.width.pct = 100;
         child.height.pct = 100;
-        child.skin = skin(Std.random(0xFFFFFF));
+        child.skin = skin();
 
         Lib.current.addChild(root.backend);
 
@@ -49,7 +51,7 @@ class Main
         label1.left  = 10;
         label1.top   = 10;
         label1.width = 100;
-        label1.skin      = skin(Std.random(0xFFFFFF));
+        label1.skin      = skin();
         var format = label1.getTextFormat();
         format.align = TextFormatAlign.LEFT;
         label1.setTextFormat(format);
@@ -61,7 +63,7 @@ class Main
         label2.left  = 150;
         label2.top   = 10;
         label2.width = 100;
-        label2.skin      = skin(Std.random(0xFFFFFF));
+        label2.skin      = skin();
         var format = label2.getTextFormat();
         format.align = TextFormatAlign.CENTER;
         label2.setTextFormat(format);
@@ -73,7 +75,7 @@ class Main
         label3.left  = 300;
         label3.top   = 10;
         label3.width = 100;
-        label3.skin      = skin(Std.random(0xFFFFFF));
+        label3.skin      = skin();
         var format = label3.getTextFormat();
         format.align = TextFormatAlign.RIGHT;
         label3.setTextFormat(format);
@@ -86,7 +88,7 @@ class Main
         bmp.left    = 500;
         bmp.top     = 400;
         bmp.padding = 10;
-        bmp.skin = skin(Std.random(0xFFFFFF));
+        bmp.skin = skin();
         bmp.keepAspect = false;
         Lib.current.addChild(bmp.backend);
 
@@ -110,16 +112,36 @@ class Main
 
             a += 0.02;
         });
+
+        var btn = new Button();
+        btn.ico = new Widget();
+        btn.ico.width  = 10;
+        btn.ico.height = 10;
+        btn.ico.skin = skin();
+        btn.text = 'I am a button!';
+        btn.skin = skin();
+        btn.right.pct = 100;
+        btn.bottom.pct = 100;
+
+        bmp.addChild(btn);
+
+        var layout : LineLayout = cast btn.layout;
+        layout.padding.horizontal = 10;
+        btn.layout = layout;
+
+        btn.onPointerTap.add(function (p, d) {
+            trace('click!');
+        });
     }
 
 
     /**
      * Create PaintSkin with specified color
      */
-    static public function skin (color:Int) : PaintSkin
+    static public function skin (color:Int = -1) : PaintSkin
     {
         var skin = new PaintSkin();
-        skin.color = color;
+        skin.color = (color < 0 ? Std.random(0xFFFFFF) : color);
 
         return skin;
     }
