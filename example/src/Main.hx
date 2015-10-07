@@ -8,8 +8,12 @@ import sx.layout.LineLayout;
 import sx.skins.PaintSkin;
 import sx.widgets.Bmp;
 import sx.widgets.Button;
+import sx.widgets.HBox;
 import sx.widgets.Text;
+import sx.widgets.VBox;
 import sx.widgets.Widget;
+
+using Std;
 
 
 /**
@@ -125,6 +129,11 @@ class Main
 
         bmp.addChild(btn);
 
+        btn.down.text = 'Pressed!';
+        btn.down.skin = skin();
+        btn.hover.text = 'Hovered!';
+        btn.hover.skin = skin();
+
         var layout : LineLayout = cast btn.layout;
         layout.padding.horizontal = 10;
         btn.layout = layout;
@@ -132,6 +141,37 @@ class Main
         btn.onPointerTap.add(function (p, d) {
             trace('click!');
         });
+        btn.onTrigger.add(function(b) {
+            trace('trigger!');
+        });
+
+        var box = new VBox();
+        box.padding = 10;
+        box.gap = 5;
+        box.skin = skin();
+        for (i in 0...5){
+            var w = box.addChild(new Widget());
+            w.width = (70 + 60 * Math.random()).int();
+            w.height = (30 + 20 * Math.random()).int();
+            w.skin = skin();
+        }
+        Lib.current.addChild(box.backend);
+        box.left = 10;
+        box.top  = 300;
+
+        var box = new HBox();
+        box.padding = 10;
+        box.gap = 5;
+        box.skin = skin();
+        for (i in 0...5){
+            var w = box.addChild(new Widget());
+            w.width = (50 + 30 * Math.random()).int();
+            w.height = (20 + 10 * Math.random()).int();
+            w.skin = skin();
+        }
+        Lib.current.addChild(box.backend);
+        box.left = 200;
+        box.top  = 500;
     }
 
 
