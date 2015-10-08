@@ -16,8 +16,6 @@ class Backend extends Sprite
 {
     /** Owner of this backend instance */
     private var widget : Widget;
-    /** Whether widget origin point settings should be used */
-    private var useOrigin : Bool = false;
 
     /** Container for widgets */
     private var widgets : Sprite;
@@ -174,8 +172,21 @@ class Backend extends Sprite
      */
     public inline function widgetOriginChanged () : Void
     {
-        useOrigin = true;
         updateTransform();
+    }
+
+
+    /**
+     * Called when offset of a widget was changed
+     */
+    public inline function widgetOffsetChanged () : Void
+    {
+        if (widget.hasOrigin()) {
+            updateTransform();
+        } else {
+            x = widget.left.px + widget.offset.left.px;
+            y = widget.top.px + widget.offset.top.px;
+        }
     }
 
 
@@ -193,11 +204,16 @@ class Backend extends Sprite
      */
     public inline function widgetMoved () : Void
     {
-        if (useOrigin) {
+        if (widget.hasOrigin()) {
             updateTransform();
         } else {
-            x = widget.left.px;
-            y = widget.top.px;
+            if (widget.hasOffset()) {
+                x = widget.left.px + widget.offset.left.px;
+                y = widget.top.px + widget.offset.top.px;
+            } else {
+                x = widget.left.px;
+                y = widget.top.px;
+            }
         }
     }
 
@@ -207,7 +223,7 @@ class Backend extends Sprite
      */
     public inline function widgetRotated () : Void
     {
-        if (useOrigin) {
+        if (widget.hasOrigin()) {
             updateTransform();
         } else {
             rotation = widget.rotation;
@@ -220,7 +236,7 @@ class Backend extends Sprite
      */
     public inline function widgetScaledX () : Void
     {
-        if (useOrigin) {
+        if (widget.hasOrigin()) {
             updateTransform();
         } else {
             scaleX = widget.scaleX;
@@ -233,7 +249,7 @@ class Backend extends Sprite
      */
     public inline function widgetScaledY () : Void
     {
-        if (useOrigin) {
+        if (widget.hasOrigin()) {
             updateTransform();
         } else {
             scaleY = widget.scaleY;
@@ -311,6 +327,9 @@ class Backend extends Sprite
             matrix.rotate(widget.rotation * Math.PI / 180);
         }
         matrix.translate(widget.left.px, widget.top.px);
+        if (widget.hasOffset()) {
+            matrix.translate(widget.offset.left.px, widget.offset.left.px);
+        }
 
         transform.matrix = matrix;
     }
