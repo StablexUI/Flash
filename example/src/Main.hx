@@ -139,7 +139,7 @@ class Main
         layout.padding.horizontal = 10;
         btn.layout = layout;
 
-        btn.onPointerTap.add(function (p, d) {
+        btn.onPointerTap.add(function (p, d, i) {
             trace('click!');
         });
         btn.onTrigger.add(function(b) {
