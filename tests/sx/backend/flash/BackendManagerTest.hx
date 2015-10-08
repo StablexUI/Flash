@@ -23,7 +23,7 @@ class BackendManagerTest extends TestCase
         var widget = new Widget();
         Lib.current.addChild(widget.backend);
         var sprite = widget.backend.addChild(new Sprite());
-        widget.onPointerMove.add(function(_,d) invoked = (d == widget));
+        widget.onPointerMove.add(function(_,d,_) invoked = (d == widget));
 
         sprite.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_MOVE, true));
 
@@ -38,7 +38,7 @@ class BackendManagerTest extends TestCase
         var widget = new Widget();
         Lib.current.addChild(widget.backend);
         var sprite = widget.backend.addChild(new Sprite());
-        widget.onPointerPress.add(function(_,d) invoked = (d == widget));
+        widget.onPointerPress.add(function(_,d,_) invoked = (d == widget));
 
         sprite.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN, true));
 
@@ -53,7 +53,7 @@ class BackendManagerTest extends TestCase
         var widget = new Widget();
         Lib.current.addChild(widget.backend);
         var sprite = widget.backend.addChild(new Sprite());
-        widget.onPointerRelease.add(function(_,d) invoked = (d == widget));
+        widget.onPointerRelease.add(function(_,d,_) invoked = (d == widget));
 
         sprite.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP, true));
 
