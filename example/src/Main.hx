@@ -22,32 +22,33 @@ using Std;
  */
 class Main
 {
+    /** Widget used as root to not bother about other widgets initialization. */
+    static private var root : Widget;
+
 
     /**
      * Entry point
      */
     static public function main () : Void
     {
-        Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
-        Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
+        initRoot();
 
-        var root = new Widget();
-        root.left = 200;
-        root.top  = 200;
-        root.width = 100;
-        root.height = 30;
-        root.origin.set(1, 0.5);
-        root.skin = skin();
+        var parent = new Widget();
+        parent.left = 200;
+        parent.top  = 200;
+        parent.width = 100;
+        parent.height = 30;
+        parent.origin.set(1, 0.5);
+        parent.skin = skin();
 
-        var child = root.addChild(new Widget());
+        var child = parent.addChild(new Widget());
         child.left = 50;
         child.bottom = -15;
         child.width.pct = 100;
         child.height.pct = 100;
         child.skin = skin();
 
-        Lib.current.addChild(root.backend);
-
+        root.addChild(parent);
 
         //left aligned text
         var label1 = new Text();
@@ -59,7 +60,7 @@ class Main
         var format = label1.getTextFormat();
         format.align = TextFormatAlign.LEFT;
         label1.setTextFormat(format);
-        Lib.current.addChild(label1.backend);
+        root.addChild(label1);
 
         //center aligned text
         var label2 = new Text();
@@ -71,7 +72,7 @@ class Main
         var format = label2.getTextFormat();
         format.align = TextFormatAlign.CENTER;
         label2.setTextFormat(format);
-        Lib.current.addChild(label2.backend);
+        root.addChild(label2);
 
         //right aligned text
         var label3 = new Text();
@@ -83,7 +84,7 @@ class Main
         var format = label3.getTextFormat();
         format.align = TextFormatAlign.RIGHT;
         label3.setTextFormat(format);
-        Lib.current.addChild(label3.backend);
+        root.addChild(label3);
 
         var bmp = new Bmp();
         var data = new BitmapData(100, 50);
@@ -94,7 +95,7 @@ class Main
         bmp.padding = 10;
         bmp.skin = skin();
         bmp.keepAspect = false;
-        Lib.current.addChild(bmp.backend);
+        root.addChild(bmp);
 
         var a = 0.;
         var labelWidth = 0.;
@@ -106,13 +107,13 @@ class Main
             bmp.width  = 100 + 25 * Math.cos(a);
             bmp.height = 50 + 25 * Math.sin(a);
 
-            root.rotation += 0.2;
-            root.width = 100 + 20 * Math.sin(a);
-            root.scaleY = 1 + 0.5 * Math.cos(a);
+            parent.rotation += 0.2;
+            parent.width = 100 + 20 * Math.sin(a);
+            parent.scaleY = 1 + 0.5 * Math.cos(a);
 
             child.alpha = 0.5 + 0.5 * Math.sin(2 * a);
 
-            cast(root.skin, PaintSkin).alpha = 0.5 + 0.5 * Math.sin(4 * a);
+            cast(parent.skin, PaintSkin).alpha = 0.5 + 0.5 * Math.sin(4 * a);
 
             a += 0.02;
         });
@@ -155,7 +156,7 @@ class Main
             w.height = (30 + 20 * Math.random()).int();
             w.skin = skin();
         }
-        Lib.current.addChild(box.backend);
+        root.addChild(box);
         box.left = 10;
         box.top  = 300;
 
@@ -169,14 +170,39 @@ class Main
             w.height = (20 + 10 * Math.random()).int();
             w.skin = skin();
         }
-        Lib.current.addChild(box.backend);
+        root.addChild(box);
         box.left = 200;
         box.top  = 500;
     }
 
 
     /**
-     * Create PaintSkin with specified color
+     * Create root widget and handle stage resizings
+     */
+    static public function initRoot () : Void
+    {
+        var stage = Lib.current.stage;
+
+        stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+        stage.align     = flash.display.StageAlign.TOP_LEFT;
+
+        root = new Widget();
+        root.width.px = stage.stageWidth;
+        root.height.px = stage.stageHeight;
+
+        stage.addChild(root.backend);
+        root.initialize();
+
+        //adjust root size according to stage size
+        Lib.current.addEventListener(Event.RESIZE, function(_) {
+            root.width.px = stage.stageWidth;
+            root.height.px = stage.stageHeight;
+        });
+    }
+
+
+    /**
+     * Create PaintSkin with specified or random color
      */
     static public function skin (color:Int = -1) : PaintSkin
     {
