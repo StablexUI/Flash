@@ -195,7 +195,9 @@ class Backend extends Sprite
      */
     public inline function widgetResized () : Void
     {
-
+        if (widget.hasOrigin()) {
+            updateTransform();
+        }
     }
 
 
@@ -328,7 +330,7 @@ class Backend extends Sprite
         }
         matrix.translate(widget.left.px, widget.top.px);
         if (widget.hasOffset()) {
-            matrix.translate(widget.offset.left.px, widget.offset.left.px);
+            matrix.translate(widget.offset.left.px, widget.offset.top.px);
         }
 
         transform.matrix = matrix;
