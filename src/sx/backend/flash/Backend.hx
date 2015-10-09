@@ -321,13 +321,18 @@ class Backend extends Sprite
         if (matrix == null) matrix = new Matrix();
 
         matrix.identity();
-        matrix.translate(-widget.origin.left.px, -widget.origin.top.px);
-        if (widget.scaleX != 0 || widget.scaleY != 0) {
+        var originX = widget.origin.left.px;
+        var originY = widget.origin.top.px;
+
+        matrix.translate(-originX, -originY);
+        if (widget.scaleX != 1 || widget.scaleY != 1) {
             matrix.scale(widget.scaleX, widget.scaleY);
         }
         if (widget.rotation != 0) {
             matrix.rotate(widget.rotation * Math.PI / 180);
         }
+        matrix.translate(originX, originY);
+
         matrix.translate(widget.left.px, widget.top.px);
         if (widget.hasOffset()) {
             matrix.translate(widget.offset.left.px, widget.offset.top.px);

@@ -137,7 +137,7 @@ class Main
         // btn.ico.skin = skin();
         btn.left.pct = 50;
         btn.top.pct  = 50;
-        btn.origin.set(0.5, 0.5);
+        btn.offset.set(-0.5, -0.5);
 
         // bmp.addChild(btn);
 
