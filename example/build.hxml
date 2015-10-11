@@ -1,5 +1,5 @@
 -lib stablexui-core
--cp ../src
+-lib stablexui-flash
 -cp src
 -main Main
 -debug

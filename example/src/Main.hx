@@ -7,7 +7,8 @@ import sx.backend.BitmapData;
 import sx.layout.LineLayout;
 import sx.skins.PaintSkin;
 import sx.Sx;
-import sx.themes.HaxeTheme;
+import sx.themes.flatui.ButtonStyle;
+import sx.themes.FlatUITheme;
 import sx.widgets.Bmp;
 import sx.widgets.Button;
 import sx.widgets.HBox;
@@ -33,7 +34,8 @@ class Main
      */
     static public function main () : Void
     {
-        Sx.theme = new HaxeTheme();
+        Sx.dipFactor = 1;
+        Sx.theme = new FlatUITheme();
         Sx.init(run);
     }
 
@@ -45,135 +47,54 @@ class Main
     {
         initRoot();
 
-        // var parent = new Widget();
-        // parent.left = 200;
-        // parent.top  = 200;
-        // parent.width = 100;
-        // parent.height = 30;
-        // parent.origin.set(1, 0.5);
-        // parent.skin = skin();
+        var box = new VBox();
+        box.gap = 10;
+        box.left.pct = 50;
+        box.top.pct  = 50;
+        box.padding = 10;
+        box.offset.set(-0.5, -0.5);
 
-        // var child = parent.addChild(new Widget());
-        // child.left = 50;
-        // child.bottom = -15;
-        // child.width.pct = 100;
-        // child.height.pct = 100;
-        // child.skin = skin();
-
-        // root.addChild(parent);
-
-        // //left aligned text
-        // var label1 = new Text();
-        // label1.text      = 'Left aligned';
-        // label1.left  = 10;
-        // label1.top   = 10;
-        // label1.width = 100;
-        // label1.skin      = skin();
-        // var format = label1.getTextFormat();
-        // format.align = TextFormatAlign.LEFT;
-        // label1.setTextFormat(format);
-        // root.addChild(label1);
-
-        // //center aligned text
-        // var label2 = new Text();
-        // label2.text      = 'Center aligned';
-        // label2.left  = 150;
-        // label2.top   = 10;
-        // label2.width = 100;
-        // label2.skin      = skin();
-        // var format = label2.getTextFormat();
-        // format.align = TextFormatAlign.CENTER;
-        // label2.setTextFormat(format);
-        // root.addChild(label2);
-
-        // //right aligned text
-        // var label3 = new Text();
-        // label3.text      = 'Right aligned';
-        // label3.left  = 300;
-        // label3.top   = 10;
-        // label3.width = 100;
-        // label3.skin      = skin();
-        // var format = label3.getTextFormat();
-        // format.align = TextFormatAlign.RIGHT;
-        // label3.setTextFormat(format);
-        // root.addChild(label3);
-
-        // var bmp = new Bmp();
-        // var data = new BitmapData(100, 50);
-        // data.perlinNoise(100, 80, 6, Math.floor(Math.random() * 10), false, true);
-        // bmp.bitmapData = data;
-        // bmp.left    = 500;
-        // bmp.top     = 400;
-        // bmp.padding = 10;
-        // bmp.skin = skin();
-        // bmp.keepAspect = false;
-        // root.addChild(bmp);
-
-        // var a = 0.;
-        // var labelWidth = 0.;
-        // Lib.current.addEventListener(Event.ENTER_FRAME, function(_){
-        //     label1.width = 100 + 25 * Math.sin(a);
-        //     label2.width = 100 + 25 * Math.cos(a);
-        //     label3.width = 100 + 25 * Math.sin(a);
-
-        //     bmp.width  = 100 + 25 * Math.cos(a);
-        //     bmp.height = 50 + 25 * Math.sin(a);
-
-        //     parent.rotation += 0.2;
-        //     parent.width = 100 + 20 * Math.sin(a);
-        //     parent.scaleY = 1 + 0.5 * Math.cos(a);
-
-        //     child.alpha = 0.5 + 0.5 * Math.sin(2 * a);
-
-        //     cast(parent.skin, PaintSkin).alpha = 0.5 + 0.5 * Math.sin(4 * a);
-
-        //     a += 0.02;
-        // });
 
         var btn = new Button();
-        btn.up.text    = 'Hello!';
-        // btn.ico.width = 10;
-        // btn.ico.height = 10;
-        // btn.ico.skin = skin();
-        btn.left.pct = 50;
-        btn.top.pct  = 50;
-        btn.offset.set(-0.5, -0.5);
+        btn.text = 'Default Button';
+        box.addChild(btn);
 
-        // bmp.addChild(btn);
+        var btn = new Button();
+        btn.text = 'Warning Button';
+        btn.style = ButtonStyle.WARNING;
+        box.addChild(btn);
 
-        btn.onTrigger.add(function(b) {
-            trace(b.text);
-        });
+        var btn = new Button();
+        btn.text = 'Concrete Button';
+        btn.style = ButtonStyle.CONCRETE;
+        box.addChild(btn);
 
-        root.addChild(btn);
+        var btn = new Button();
+        btn.text = 'Danger Button';
+        btn.style = ButtonStyle.DANGER;
+        box.addChild(btn);
 
-        // var box = new VBox();
-        // box.padding = 10;
-        // box.gap = 5;
-        // box.skin = skin();
-        // for (i in 0...5){
-        //     var w = box.addChild(new Widget());
-        //     w.width = (70 + 60 * Math.random()).int();
-        //     w.height = (30 + 20 * Math.random()).int();
-        //     w.skin = skin();
-        // }
-        // root.addChild(box);
-        // box.left = 10;
-        // box.top  = 300;
+        var btn = new Button();
+        btn.text = 'Success Button';
+        btn.style = ButtonStyle.SUCCESS;
+        box.addChild(btn);
 
-        // var box = new HBox();
-        // box.padding = 10;
-        // box.gap = 5;
-        // box.skin = skin();
-        // for (i in 0...5){
-        //     var w = box.addChild(new Widget());
-        //     w.width = (50 + 30 * Math.random()).int();
-        //     w.height = (20 + 10 * Math.random()).int();
-        //     w.skin = skin();
-        // }
-        // root.addChild(box);
-        // box.left = 200;
-        // box.top  = 500;
+        var btn = new Button();
+        btn.text = 'Inverse Button';
+        btn.style = ButtonStyle.INVERSE;
+        box.addChild(btn);
+
+        var btn = new Button();
+        btn.text = 'Info Button';
+        btn.style = ButtonStyle.INFO;
+        box.addChild(btn);
+
+        var btn = new Button();
+        btn.text = 'Disabled Button';
+        btn.style = ButtonStyle.DISABLED;
+        box.addChild(btn);
+
+        root.addChild(box);
     }
 
 

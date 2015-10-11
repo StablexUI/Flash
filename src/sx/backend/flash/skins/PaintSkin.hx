@@ -1,9 +1,9 @@
 package sx.backend.flash.skins;
 
-import flash.display.Shape;
+import sx.properties.Orientation;
 import sx.skins.base.PaintSkinBase;
-import sx.widgets.Widget;
 
+using sx.tools.PropertiesTools;
 
 
 /**
@@ -12,43 +12,6 @@ import sx.widgets.Widget;
  */
 class PaintSkin extends PaintSkinBase
 {
-    /** Display object which will be used for drawings */
-    private var canvas : Shape;
-
-
-    /**
-     * Constructor
-     */
-    public function new () : Void
-    {
-        super();
-
-        canvas = new Shape();
-    }
-
-
-    /**
-     * Called when skin is set for a `widget`.
-     */
-    override public function usedBy (widget:Widget) : Void
-    {
-        super.usedBy(widget);
-
-        widget.backend.setSkinObject(canvas);
-    }
-
-
-    /**
-     * If this skin is no longer in use by current widget
-     */
-    override public function removed () : Void
-    {
-        if (canvas.parent != null) {
-            canvas.parent.removeChild(canvas);
-        }
-
-        super.removed();
-    }
 
 
     /**
@@ -57,9 +20,32 @@ class PaintSkin extends PaintSkinBase
     override public function refresh () : Void
     {
         canvas.graphics.clear();
+
+        var x = 0.;
+        var y = 0.;
+        var width  = __widget.width.px;
+        var height = __widget.height.px;
+        if (hasPadding()) {
+            x += padding.left.px;
+            y += padding.top.px;
+            width  -= padding.sum(Horizontal);
+            height -= padding.sum(Vertical);
+        }
+
+        if (hasBorder()) {
+            canvas.graphics.lineStyle(border.width.px, border.color, border.alpha);
+        }
         if (color >= 0) {
             canvas.graphics.beginFill(color, alpha);
-            canvas.graphics.drawRect(0, 0, __widget.width.px, __widget.height.px);
+        }
+
+        if (hasCorners()) {
+            canvas.graphics.drawRoundRect(x, y, width, height, corners.px);
+        } else {
+            canvas.graphics.drawRect(x, y, width, height);
+        }
+
+        if (color >= 0) {
             canvas.graphics.endFill();
         }
     }
