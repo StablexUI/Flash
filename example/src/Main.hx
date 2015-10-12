@@ -141,17 +141,17 @@ class Main
         box.left = 250;
 
         var input = new TextInput();
-        input.text = 'Default Input';
+        input.invitation = 'Default Input';
         box.addChild(input);
 
         var input = new TextInput();
         input.style = TextInputStyle.SUCCESS;
-        input.text = 'Success Input';
+        input.invitation = 'Success Input';
         box.addChild(input);
 
         var input = new TextInput();
         input.style = TextInputStyle.ERROR;
-        input.text = 'Error Input';
+        input.invitation = 'Error Input';
         box.addChild(input);
 
         root.addChild(box);

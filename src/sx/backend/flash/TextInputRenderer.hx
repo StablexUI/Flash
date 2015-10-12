@@ -1,6 +1,7 @@
 package sx.backend.flash;
 
 import flash.events.Event;
+import flash.events.FocusEvent;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFieldType;
@@ -19,6 +20,10 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
     private var __inputWidget : TextInput;
     /** Callback to invoke when content changed */
     private var __onTextChange : Null<String->Void>;
+    /** Callback to invoke when cursor placed in this input */
+    private var __onReceiveCursor : Null<Void->Void>;
+    /** Callback to invoke when cursor removed from this input */
+    private var __onLoseCursor : Null<Void->Void>;
     /** Do not invoke `__onTextChange` */
     private var __suppressOnTextChange : Bool = false;
 
@@ -40,16 +45,34 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
 
         __adjustHeightOneLine();
 
-        addEventListener(Event.CHANGE, __onChangeEvent);
+        __addListeners();
     }
 
 
     /**
      * Set/remove callback which will be called when user changes content of text field
      */
-    public function onTextChange (onTextChange:String->Void) : Void
+    public function onTextChange (onTextChange:Null<String->Void>) : Void
     {
         __onTextChange = onTextChange;
+    }
+
+
+    /**
+     * Set/remove callback which will be called when user places cursor in this input.
+     */
+    public function onReceiveCursor (callback:Null<Void->Void>) : Void
+    {
+        __onReceiveCursor = callback;
+    }
+
+
+    /**
+     * Set/remove callback which will be called when user removes cursor from this input.
+     */
+    public function onLoseCursor (callback:Null<Void->Void>) : Void
+    {
+        __onLoseCursor = callback;
     }
 
 
@@ -146,7 +169,7 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
      */
     public function dispose () : Void
     {
-        removeEventListener(Event.CHANGE, __onChangeEvent);
+        __removeListeners();
         __inputWidget = null;
         if (__onTextChange != null) __onTextChange = null;
         if (parent != null) parent.removeChild(this);
@@ -186,6 +209,24 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
 
 
     /**
+     * User placed cursor in this input
+     */
+    private function __onFocusIn (e:FocusEvent) : Void
+    {
+        if (__onReceiveCursor != null) __onReceiveCursor();
+    }
+
+
+    /**
+     * User removed cursor from this input
+     */
+    private function __onFocusOut (e:FocusEvent) : Void
+    {
+        if (__onLoseCursor != null) __onLoseCursor();
+    }
+
+
+    /**
      * Make flash TextField height be the size of one line.
      */
     private inline function __adjustHeightOneLine () : Void
@@ -194,6 +235,28 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
         autoSize   = TextFieldAutoSize.LEFT;
         this.width = width;
         autoSize   = TextFieldAutoSize.NONE;
+    }
+
+
+    /**
+     * Add required event listeners
+     */
+    private inline function __addListeners () : Void
+    {
+        addEventListener(Event.CHANGE, __onChangeEvent);
+        addEventListener(FocusEvent.FOCUS_IN, __onFocusIn);
+        addEventListener(FocusEvent.FOCUS_OUT, __onFocusOut);
+    }
+
+
+    /**
+     * Add required event listeners
+     */
+    private inline function __removeListeners () : Void
+    {
+        removeEventListener(Event.CHANGE, __onChangeEvent);
+        removeEventListener(FocusEvent.FOCUS_IN, __onFocusIn);
+        removeEventListener(FocusEvent.FOCUS_OUT, __onFocusOut);
     }
 
 }//class TextInputRenderer
