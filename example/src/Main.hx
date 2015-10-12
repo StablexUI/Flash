@@ -8,6 +8,7 @@ import sx.layout.LineLayout;
 import sx.skins.PaintSkin;
 import sx.Sx;
 import sx.themes.flatui.ButtonStyle;
+import sx.themes.flatui.TextInputStyle;
 import sx.themes.FlatUITheme;
 import sx.widgets.Bmp;
 import sx.widgets.Button;
@@ -47,63 +48,8 @@ class Main
     static public function run () : Void
     {
         initRoot();
-
-        var box = new VBox();
-        box.gap = 10;
-        box.left.pct = 50;
-        box.top.pct  = 50;
-        box.padding = 10;
-        box.offset.set(-0.5, -0.5);
-
-
-        // var btn = new Button();
-        // btn.text = 'Default Button';
-        // box.addChild(btn);
-
-        // var btn = new Button();
-        // btn.text = 'Warning Button';
-        // btn.style = ButtonStyle.WARNING;
-        // box.addChild(btn);
-
-        // var btn = new Button();
-        // btn.text = 'Concrete Button';
-        // btn.style = ButtonStyle.CONCRETE;
-        // box.addChild(btn);
-
-        // var btn = new Button();
-        // btn.text = 'Danger Button';
-        // btn.style = ButtonStyle.DANGER;
-        // box.addChild(btn);
-
-        // var btn = new Button();
-        // btn.text = 'Success Button';
-        // btn.style = ButtonStyle.SUCCESS;
-        // box.addChild(btn);
-
-        // var btn = new Button();
-        // btn.text = 'Inverse Button';
-        // btn.style = ButtonStyle.INVERSE;
-        // box.addChild(btn);
-
-        // var btn = new Button();
-        // btn.text = 'Info Button';
-        // btn.style = ButtonStyle.INFO;
-        // box.addChild(btn);
-
-        // var btn = new Button();
-        // btn.text = 'Disabled Button';
-        // btn.style = ButtonStyle.DISABLED;
-        // box.addChild(btn);
-
-        var input = new TextInput();
-        input.width = 100;
-        input.height = 30;
-        input.skin = FlatUITheme.SKIN_PRIMARY;
-        input.renderer.border = true;
-        input.padding = 10;
-        box.addChild(input);
-
-        root.addChild(box);
+        addButtons();
+        addTextInputs();
     }
 
 
@@ -133,14 +79,83 @@ class Main
 
 
     /**
-     * Create PaintSkin with specified or random color
+     * Description
      */
-    static public function skin (color:Int = -1) : PaintSkin
+    static public function addButtons () : Void
     {
-        var skin = new PaintSkin();
-        skin.color = (color < 0 ? Std.random(0xFFFFFF) : color);
+        var box = new VBox();
+        box.gap = 10;
+        box.padding = 10;
 
-        return skin;
+        var btn = new Button();
+        btn.text = 'Default Button';
+        box.addChild(btn);
+
+        var btn = new Button();
+        btn.text = 'Warning Button';
+        btn.style = ButtonStyle.WARNING;
+        box.addChild(btn);
+
+        var btn = new Button();
+        btn.text = 'Concrete Button';
+        btn.style = ButtonStyle.CONCRETE;
+        box.addChild(btn);
+
+        var btn = new Button();
+        btn.text = 'Danger Button';
+        btn.style = ButtonStyle.DANGER;
+        box.addChild(btn);
+
+        var btn = new Button();
+        btn.text = 'Success Button';
+        btn.style = ButtonStyle.SUCCESS;
+        box.addChild(btn);
+
+        var btn = new Button();
+        btn.text = 'Inverse Button';
+        btn.style = ButtonStyle.INVERSE;
+        box.addChild(btn);
+
+        var btn = new Button();
+        btn.text = 'Info Button';
+        btn.style = ButtonStyle.INFO;
+        box.addChild(btn);
+
+        var btn = new Button();
+        btn.text = 'Disabled Button';
+        btn.style = ButtonStyle.DISABLED;
+        box.addChild(btn);
+
+        root.addChild(box);
     }
+
+
+    /**
+     * Description
+     */
+    static public function addTextInputs () : Void
+    {
+        var box = new HBox();
+        box.gap = 10;
+        box.padding = 10;
+        box.left = 250;
+
+        var input = new TextInput();
+        input.text = 'Default Input';
+        box.addChild(input);
+
+        var input = new TextInput();
+        input.style = TextInputStyle.SUCCESS;
+        input.text = 'Success Input';
+        box.addChild(input);
+
+        var input = new TextInput();
+        input.style = TextInputStyle.ERROR;
+        input.text = 'Error Input';
+        box.addChild(input);
+
+        root.addChild(box);
+    }
+
 
 }//class Main

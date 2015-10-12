@@ -9,7 +9,6 @@ import sx.backend.TextFormat;
 import sx.widgets.TextInput;
 
 
-
 /**
  * Text rendering based on flash.text.TextField
  *
@@ -169,7 +168,7 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
     private inline function __updatePosition () : Void
     {
         x = __inputWidget.padding.left.px;
-        y = __inputWidget.padding.top.px;
+        y = 0.5 * (__inputWidget.height.px - height);
     }
 
 
@@ -191,9 +190,10 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
      */
     private inline function __adjustHeightOneLine () : Void
     {
-        autoSize = TextFieldAutoSize.LEFT;
-        width    = __inputWidget.width.px;
-        autoSize = TextFieldAutoSize.NONE;
+        var width = this.width;
+        autoSize   = TextFieldAutoSize.LEFT;
+        this.width = width;
+        autoSize   = TextFieldAutoSize.NONE;
     }
 
 }//class TextInputRenderer
