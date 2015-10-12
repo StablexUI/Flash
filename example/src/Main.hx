@@ -13,6 +13,7 @@ import sx.widgets.Bmp;
 import sx.widgets.Button;
 import sx.widgets.HBox;
 import sx.widgets.Text;
+import sx.widgets.TextInput;
 import sx.widgets.VBox;
 import sx.widgets.Widget;
 
@@ -55,44 +56,52 @@ class Main
         box.offset.set(-0.5, -0.5);
 
 
-        var btn = new Button();
-        btn.text = 'Default Button';
-        box.addChild(btn);
+        // var btn = new Button();
+        // btn.text = 'Default Button';
+        // box.addChild(btn);
 
-        var btn = new Button();
-        btn.text = 'Warning Button';
-        btn.style = ButtonStyle.WARNING;
-        box.addChild(btn);
+        // var btn = new Button();
+        // btn.text = 'Warning Button';
+        // btn.style = ButtonStyle.WARNING;
+        // box.addChild(btn);
 
-        var btn = new Button();
-        btn.text = 'Concrete Button';
-        btn.style = ButtonStyle.CONCRETE;
-        box.addChild(btn);
+        // var btn = new Button();
+        // btn.text = 'Concrete Button';
+        // btn.style = ButtonStyle.CONCRETE;
+        // box.addChild(btn);
 
-        var btn = new Button();
-        btn.text = 'Danger Button';
-        btn.style = ButtonStyle.DANGER;
-        box.addChild(btn);
+        // var btn = new Button();
+        // btn.text = 'Danger Button';
+        // btn.style = ButtonStyle.DANGER;
+        // box.addChild(btn);
 
-        var btn = new Button();
-        btn.text = 'Success Button';
-        btn.style = ButtonStyle.SUCCESS;
-        box.addChild(btn);
+        // var btn = new Button();
+        // btn.text = 'Success Button';
+        // btn.style = ButtonStyle.SUCCESS;
+        // box.addChild(btn);
 
-        var btn = new Button();
-        btn.text = 'Inverse Button';
-        btn.style = ButtonStyle.INVERSE;
-        box.addChild(btn);
+        // var btn = new Button();
+        // btn.text = 'Inverse Button';
+        // btn.style = ButtonStyle.INVERSE;
+        // box.addChild(btn);
 
-        var btn = new Button();
-        btn.text = 'Info Button';
-        btn.style = ButtonStyle.INFO;
-        box.addChild(btn);
+        // var btn = new Button();
+        // btn.text = 'Info Button';
+        // btn.style = ButtonStyle.INFO;
+        // box.addChild(btn);
 
-        var btn = new Button();
-        btn.text = 'Disabled Button';
-        btn.style = ButtonStyle.DISABLED;
-        box.addChild(btn);
+        // var btn = new Button();
+        // btn.text = 'Disabled Button';
+        // btn.style = ButtonStyle.DISABLED;
+        // box.addChild(btn);
+
+        var input = new TextInput();
+        input.width = 100;
+        input.height = 30;
+        input.skin = FlatUITheme.SKIN_PRIMARY;
+        input.renderer.border = true;
+        input.padding = 10;
+        box.addChild(input);
 
         root.addChild(box);
     }
