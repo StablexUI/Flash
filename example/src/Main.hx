@@ -48,8 +48,22 @@ class Main
     static public function run () : Void
     {
         initRoot();
-        addButtons();
-        addTextInputs();
+
+        var btn = new Button();
+        btn.text = 'Hello';
+        btn.top = 50;
+
+        var t = new sx.tween.Tweener();
+        t.tween(btn.left, 'dip', 500, 1);
+        t.tween(btn.top, 'dip', 500, 1);
+
+        Lib.current.addEventListener(Event.ENTER_FRAME, function(_) {
+            sx.tween.Tweener.update();
+        });
+        root.addChild(btn);
+
+        // addButtons();
+        // addTextInputs();
     }
 
 
