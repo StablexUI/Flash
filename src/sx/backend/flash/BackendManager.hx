@@ -10,6 +10,7 @@ import sx.backend.interfaces.IBackendManager;
 import sx.backend.TextInputRenderer;
 import sx.backend.TextRenderer;
 import sx.input.PointerManager;
+import sx.tween.Tweener;
 import sx.widgets.Bmp;
 import sx.widgets.Text;
 import sx.widgets.TextInput;
@@ -25,21 +26,25 @@ class BackendManager implements IBackendManager
 {
     /** If mouse events listeners attached to stage */
     static private var __mouseEventsHandled : Bool = false;
+    /** If tweener is already set up */
+    static private var __tweenerHandled : Bool = false;
+    /** Widget for `sx.Sx.root` */
+    static private var __root : Widget;
 
 
     /**
      * Translate flash mouse & touch events to StablexUI signals
      */
-    static public function handlePointers () : Void
+    static private function __handlePointers () : Void
     {
         if (__mouseEventsHandled) return;
         __mouseEventsHandled = true;
 
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, function (e:MouseEvent) {
-            PointerManager.pressed(ownerWidget(e.target));
+            PointerManager.pressed(__ownerWidget(e.target));
         });
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, function (e:MouseEvent) {
-            PointerManager.released(ownerWidget(e.target));
+            PointerManager.released(__ownerWidget(e.target));
         });
         //for flash >= 11.3
         if (MouseEvent.RELEASE_OUTSIDE != null) {
@@ -48,7 +53,45 @@ class BackendManager implements IBackendManager
             });
         }
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE, function (e:MouseEvent) {
-            PointerManager.moved(ownerWidget(e.target));
+            PointerManager.moved(__ownerWidget(e.target));
+        });
+    }
+
+
+    /**
+     * Setup tweener
+     */
+    static private function __handleTweener () : Void
+    {
+        if (__tweenerHandled) return;
+        __tweenerHandled = true;
+
+        Lib.current.stage.addEventListener(Event.ENTER_FRAME, function(_) {
+            Tweener.update();
+        });
+    }
+
+
+    /**
+     * Create root widget
+     */
+    static private function __setupRoot () : Void
+    {
+        if (__root != null) return;
+
+        var stage = Lib.current.stage;
+
+        __root = new Widget();
+        __root.width.px = stage.stageWidth;
+        __root.height.px = stage.stageHeight;
+
+        stage.addChild(__root.backend);
+        __root.initialize();
+
+        //adjust root size according to stage size
+        stage.addEventListener(Event.RESIZE, function(_) {
+            __root.width.px  = stage.stageWidth;
+            __root.height.px = stage.stageHeight;
         });
     }
 
@@ -58,7 +101,36 @@ class BackendManager implements IBackendManager
      */
     public function new () : Void
     {
-        handlePointers();
+
+    }
+
+
+    /**
+     * Map mouse/touch events to StablexUI signals
+     */
+    public function setupPointerDevices () : Void
+    {
+        __handlePointers();
+    }
+
+
+    /**
+     * Setup `sx.tween.Tweener`: make `Tweener.update()` to be called regulary, set pause/unpause handlers etc.
+     */
+    public function setupTweener () : Void
+    {
+        __handleTweener();
+    }
+
+
+    /**
+     * Return widget which will be used for `sx.Sx.root`
+     */
+    public function getRoot () : Widget
+    {
+        if (__root == null) __setupRoot();
+
+        return __root;
     }
 
 
@@ -102,7 +174,7 @@ class BackendManager implements IBackendManager
      * Find widget which contains specified `object`
      */
     @:access(sx.backend.flash.Backend.widget)
-    static private function ownerWidget (object:DisplayObject) : Null<Widget>
+    static private function __ownerWidget (object:DisplayObject) : Null<Widget>
     {
         while (object != null) {
             if (untyped __is__(object, Backend)) {

@@ -5,6 +5,7 @@ import flash.events.MouseEvent;
 import flash.Lib;
 import hunit.TestCase;
 import sx.backend.flash.BackendManager;
+import sx.Sx;
 import sx.widgets.Widget;
 
 
@@ -24,6 +25,7 @@ class BackendManagerTest extends TestCase
         Lib.current.addChild(widget.backend);
         var sprite = widget.backend.addChild(new Sprite());
         widget.onPointerMove.add(function(_,d,_) invoked = (d == widget));
+        Sx.backendManager.setupPointerDevices();
 
         sprite.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_MOVE, true));
 
@@ -39,6 +41,7 @@ class BackendManagerTest extends TestCase
         Lib.current.addChild(widget.backend);
         var sprite = widget.backend.addChild(new Sprite());
         widget.onPointerPress.add(function(_,d,_) invoked = (d == widget));
+        Sx.backendManager.setupPointerDevices();
 
         sprite.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN, true));
 
@@ -54,6 +57,7 @@ class BackendManagerTest extends TestCase
         Lib.current.addChild(widget.backend);
         var sprite = widget.backend.addChild(new Sprite());
         widget.onPointerRelease.add(function(_,d,_) invoked = (d == widget));
+        Sx.backendManager.setupPointerDevices();
 
         sprite.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP, true));
 

@@ -36,6 +36,9 @@ class Main
      */
     static public function main () : Void
     {
+        Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+        Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
+
         Sx.dipFactor = 1;
         Sx.theme = new FlatUITheme();
         Sx.init(run);
@@ -47,35 +50,8 @@ class Main
      */
     static public function run () : Void
     {
-        initRoot();
-
         addButtons();
         addTextInputs();
-    }
-
-
-    /**
-     * Create root widget and handle stage resizings
-     */
-    static public function initRoot () : Void
-    {
-        var stage = Lib.current.stage;
-
-        stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
-        stage.align     = flash.display.StageAlign.TOP_LEFT;
-
-        root = new Widget();
-        root.width.px = stage.stageWidth;
-        root.height.px = stage.stageHeight;
-
-        stage.addChild(root.backend);
-        root.initialize();
-
-        //adjust root size according to stage size
-        stage.addEventListener(Event.RESIZE, function(_) {
-            root.width.px = stage.stageWidth;
-            root.height.px = stage.stageHeight;
-        });
     }
 
 
@@ -127,7 +103,7 @@ class Main
         btn.style = ButtonStyle.DISABLED;
         box.addChild(btn);
 
-        root.addChild(box);
+        Sx.root.addChild(box);
     }
 
 
@@ -155,7 +131,7 @@ class Main
         input.invitation = 'Error Input';
         box.addChild(input);
 
-        root.addChild(box);
+        Sx.root.addChild(box);
     }
 
 
