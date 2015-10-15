@@ -168,6 +168,24 @@ class Backend extends Sprite
 
 
     /**
+     * Convert global point to local point
+     */
+    public function widgetGlobalToLocal (point:Point) : Point
+    {
+        return globalToLocal(point);
+    }
+
+
+    /**
+     * Convert local point to global point
+     */
+    public function widgetLocalToGlobal (point:Point) : Point
+    {
+        return localToGlobal(point);
+    }
+
+
+    /**
      * Called when origin of a widget was changed
      */
     public inline function widgetOriginChanged () : Void

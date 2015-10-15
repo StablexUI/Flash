@@ -143,7 +143,7 @@ class Main
      */
     static public function addBars () : Void
     {
-        var randomValue = function (p:Progress) return p.min + Math.random() * (p.max - p.min);
+        var randomValue = function (p:Progress) return p.min + (0.1 + 0.9 * Math.random()) * (p.max - p.min);
 
         var box = new VBox();
         box.gap     = 30;
