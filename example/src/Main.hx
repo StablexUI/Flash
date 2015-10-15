@@ -10,9 +10,11 @@ import sx.Sx;
 import sx.themes.flatui.ButtonStyle;
 import sx.themes.flatui.TextInputStyle;
 import sx.themes.FlatUITheme;
+import sx.tween.easing.*;
 import sx.widgets.Bmp;
 import sx.widgets.Button;
 import sx.widgets.HBox;
+import sx.widgets.Progress;
 import sx.widgets.Text;
 import sx.widgets.TextInput;
 import sx.widgets.VBox;
@@ -52,6 +54,7 @@ class Main
     {
         addButtons();
         addTextInputs();
+        addBars();
     }
 
 
@@ -134,5 +137,27 @@ class Main
         Sx.root.addChild(box);
     }
 
+
+    /**
+     * Description
+     */
+    static public function addBars () : Void
+    {
+        var randomValue = function (p:Progress) return p.min + Math.random() * (p.max - p.min);
+
+        var box = new VBox();
+        box.gap     = 30;
+        box.padding = 10;
+        box.left    = 250;
+        box.top     = 100;
+
+        var progress = new Progress();
+        progress.value  = randomValue(progress);
+        progress.easing = Quad.easeOut;
+        progress.onPointerPress.add(function(_,_,_) progress.value = randomValue(progress));
+        box.addChild(progress);
+
+        Sx.root.addChild(box);
+    }
 
 }//class Main
