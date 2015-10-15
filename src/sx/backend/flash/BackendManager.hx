@@ -9,7 +9,7 @@ import sx.backend.BitmapRenderer;
 import sx.backend.interfaces.IBackendManager;
 import sx.backend.TextInputRenderer;
 import sx.backend.TextRenderer;
-import sx.input.PointerManager;
+import sx.input.Pointer;
 import sx.tween.Tweener;
 import sx.widgets.Bmp;
 import sx.widgets.Text;
@@ -41,19 +41,19 @@ class BackendManager implements IBackendManager
         __mouseEventsHandled = true;
 
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, function (e:MouseEvent) {
-            PointerManager.pressed(__ownerWidget(e.target));
+            Pointer.pressed(__ownerWidget(e.target));
         });
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, function (e:MouseEvent) {
-            PointerManager.released(__ownerWidget(e.target));
+            Pointer.released(__ownerWidget(e.target));
         });
         //for flash >= 11.3
         if (MouseEvent.RELEASE_OUTSIDE != null) {
             Lib.current.stage.addEventListener(MouseEvent.RELEASE_OUTSIDE, function (e:MouseEvent) {
-                PointerManager.released(null);
+                Pointer.released(null);
             });
         }
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE, function (e:MouseEvent) {
-            PointerManager.moved(__ownerWidget(e.target));
+            Pointer.moved(__ownerWidget(e.target));
         });
     }
 
