@@ -42,7 +42,6 @@ class Main
         Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
         Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 
-        Sx.dipFactor = 1;
         Sx.theme = new FlatUITheme();
         Sx.init(run);
     }
@@ -55,7 +54,7 @@ class Main
     {
         addButtons();
         addTextInputs();
-        addBars();
+        addProgressBars();
     }
 
 
@@ -142,7 +141,7 @@ class Main
     /**
      * Description
      */
-    static public function addBars () : Void
+    static public function addProgressBars () : Void
     {
         var randomValue = function (p:Progress) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
 
@@ -175,14 +174,12 @@ class Main
         var progress = new Progress();
         progress.style  = ProgressStyle.DANGER;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         box.addChild(progress);
 
         var progress = new Progress();
         progress.style  = ProgressStyle.SUCCESS;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         progress.bar.right.select();
         box.addChild(progress);
@@ -190,7 +187,6 @@ class Main
         var progress = new Progress();
         progress.style  = ProgressStyle.INVERSE;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         progress.bar.right.select();
         box.addChild(progress);
@@ -198,7 +194,6 @@ class Main
         var progress = new Progress();
         progress.style  = ProgressStyle.INFO;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         progress.bar.right.select();
         box.addChild(progress);
@@ -210,35 +205,30 @@ class Main
         var progress = new Progress();
         progress.style  = ProgressStyle.VERTICAL;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         hbox.addChild(progress);
 
         var progress = new Progress();
         progress.style  = ProgressStyle.WARNING_VERTICAL;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         hbox.addChild(progress);
 
         var progress = new Progress();
         progress.style  = ProgressStyle.CONCRETE_VERTICAL;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         hbox.addChild(progress);
 
         var progress = new Progress();
         progress.style  = ProgressStyle.DANGER_VERTICAL;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         hbox.addChild(progress);
 
         var progress = new Progress();
         progress.style  = ProgressStyle.SUCCESS_VERTICAL;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         progress.bar.top.select();
         hbox.addChild(progress);
@@ -246,7 +236,6 @@ class Main
         var progress = new Progress();
         progress.style  = ProgressStyle.INVERSE_VERTICAL;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         progress.bar.top.select();
         hbox.addChild(progress);
@@ -254,7 +243,6 @@ class Main
         var progress = new Progress();
         progress.style  = ProgressStyle.INFO_VERTICAL;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         progress.bar.top.select();
         hbox.addChild(progress);
