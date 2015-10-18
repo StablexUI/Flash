@@ -3,6 +3,7 @@ package sx.backend.flash;
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.geom.Matrix;
+import flash.geom.Rectangle;
 import sx.widgets.Widget;
 
 using sx.tools.WidgetTools;
@@ -216,6 +217,7 @@ class Backend extends Sprite
         if (widget.hasOrigin()) {
             updateTransform();
         }
+        updateScrollRect();
     }
 
 
@@ -296,6 +298,15 @@ class Backend extends Sprite
 
 
     /**
+     * Called when widget.overflow is changed
+     */
+    public inline function widgetOverflowChanged () : Void
+    {
+        updateScrollRect();
+    }
+
+
+    /**
      * Called when skin of a widget was changed
      */
     public inline function widgetSkinChanged () : Void
@@ -360,6 +371,26 @@ class Backend extends Sprite
         matrix.ty = Sx.snap(matrix.ty);
 
         transform.matrix = matrix;
+    }
+
+
+    /**
+     * Update `scrollRect` according to `widget.overflow`
+     */
+    private inline function updateScrollRect () : Void
+    {
+        if (widget.overflow) {
+            scrollRect = null;
+        } else {
+            var rect = scrollRect;
+            if (rect == null) rect = new Rectangle();
+            rect.x = 0;
+            rect.y = 0;
+            rect.width = widget.width.px;
+            rect.height = widget.height.px;
+
+            scrollRect = rect;
+        }
     }
 
 
