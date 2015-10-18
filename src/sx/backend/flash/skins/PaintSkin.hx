@@ -2,6 +2,7 @@ package sx.backend.flash.skins;
 
 import sx.properties.Orientation;
 import sx.skins.base.PaintSkinBase;
+import sx.Sx;
 
 using sx.tools.PropertiesTools;
 
@@ -33,14 +34,19 @@ class PaintSkin extends PaintSkinBase
         }
 
         if (hasBorder()) {
-            canvas.graphics.lineStyle(border.width.px, border.color, border.alpha);
+            var borderWidth = Math.round(border.width.px);
+            canvas.graphics.lineStyle(borderWidth, border.color, border.alpha, (borderWidth & 1 == 1));
         }
         if (color >= 0) {
             canvas.graphics.beginFill(color, alpha);
         }
 
+        x = Sx.snap(x);
+        y = Sx.snap(x);
+
         if (hasCorners()) {
-            canvas.graphics.drawRoundRect(x, y, width, height, corners.px);
+            var cornerRadius = Sx.snap(corners.px);
+            canvas.graphics.drawRoundRect(x, y, width, height, cornerRadius);
         } else {
             canvas.graphics.drawRect(x, y, width, height);
         }

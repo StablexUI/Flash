@@ -202,8 +202,8 @@ class Backend extends Sprite
         if (widget.hasOrigin()) {
             updateTransform();
         } else {
-            x = widget.left.px + widget.offset.left.px;
-            y = widget.top.px + widget.offset.top.px;
+            x = Sx.snap(widget.left.px + widget.offset.left.px);
+            y = Sx.snap(widget.top.px + widget.offset.top.px);
         }
     }
 
@@ -228,11 +228,11 @@ class Backend extends Sprite
             updateTransform();
         } else {
             if (widget.hasOffset()) {
-                x = widget.left.px + widget.offset.left.px;
-                y = widget.top.px + widget.offset.top.px;
+                x = Sx.snap(widget.left.px + widget.offset.left.px);
+                y = Sx.snap(widget.top.px + widget.offset.top.px);
             } else {
-                x = widget.left.px;
-                y = widget.top.px;
+                x = Sx.snap(widget.left.px);
+                y = Sx.snap(widget.top.px);
             }
         }
     }
@@ -355,6 +355,9 @@ class Backend extends Sprite
         if (widget.hasOffset()) {
             matrix.translate(widget.offset.left.px, widget.offset.top.px);
         }
+
+        matrix.tx = Sx.snap(matrix.tx);
+        matrix.ty = Sx.snap(matrix.ty);
 
         transform.matrix = matrix;
     }

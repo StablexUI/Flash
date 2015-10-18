@@ -42,6 +42,8 @@ class Main
         Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
         Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 
+        // Sx.dipFactor  = 1.53;
+        // Sx.pixelSnapping = true;
         Sx.theme = new FlatUITheme();
         Sx.init(run);
     }
@@ -118,7 +120,7 @@ class Main
         var box = new HBox();
         box.gap = 10;
         box.padding = 10;
-        box.left = 250;
+        box.left = 200;
 
         var input = new TextInput();
         input.invitation = 'Default Input';
@@ -148,8 +150,8 @@ class Main
         var box = new VBox();
         box.gap     = 20;
         box.padding = 10;
-        box.left    = 250;
-        box.top     = 100;
+        box.left    = 200;
+        box.top     = 80;
 
         var progress = new Progress();
         progress.value  = randomValue(progress);
@@ -169,56 +171,12 @@ class Main
         progress.value  = randomValue(progress);
         progress.easing = Quad.easeOut;
         progress.interactive = true;
-        box.addChild(progress);
-
-        var progress = new Progress();
-        progress.style  = ProgressStyle.DANGER;
-        progress.value  = randomValue(progress);
-        progress.interactive = true;
-        box.addChild(progress);
-
-        var progress = new Progress();
-        progress.style  = ProgressStyle.SUCCESS;
-        progress.value  = randomValue(progress);
-        progress.interactive = true;
-        progress.bar.right.select();
-        box.addChild(progress);
-
-        var progress = new Progress();
-        progress.style  = ProgressStyle.INVERSE;
-        progress.value  = randomValue(progress);
-        progress.interactive = true;
-        progress.bar.right.select();
-        box.addChild(progress);
-
-        var progress = new Progress();
-        progress.style  = ProgressStyle.INFO;
-        progress.value  = randomValue(progress);
-        progress.interactive = true;
         progress.bar.right.select();
         box.addChild(progress);
 
         var hbox = new HBox();
-        hbox.gap = 20;
+        hbox.gap = 30;
         hbox.padding = 10;
-
-        var progress = new Progress();
-        progress.style  = ProgressStyle.VERTICAL;
-        progress.value  = randomValue(progress);
-        progress.interactive = true;
-        hbox.addChild(progress);
-
-        var progress = new Progress();
-        progress.style  = ProgressStyle.WARNING_VERTICAL;
-        progress.value  = randomValue(progress);
-        progress.interactive = true;
-        hbox.addChild(progress);
-
-        var progress = new Progress();
-        progress.style  = ProgressStyle.CONCRETE_VERTICAL;
-        progress.value  = randomValue(progress);
-        progress.interactive = true;
-        hbox.addChild(progress);
 
         var progress = new Progress();
         progress.style  = ProgressStyle.DANGER_VERTICAL;
@@ -230,7 +188,6 @@ class Main
         progress.style  = ProgressStyle.SUCCESS_VERTICAL;
         progress.value  = randomValue(progress);
         progress.interactive = true;
-        progress.bar.top.select();
         hbox.addChild(progress);
 
         var progress = new Progress();
