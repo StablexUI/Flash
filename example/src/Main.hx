@@ -8,14 +8,14 @@ import sx.layout.LineLayout;
 import sx.skins.PaintSkin;
 import sx.Sx;
 import sx.themes.flatui.ButtonStyle;
-import sx.themes.flatui.ProgressStyle;
+import sx.themes.flatui.ProgressBarStyle;
 import sx.themes.flatui.TextInputStyle;
 import sx.themes.FlatUITheme;
 import sx.tween.easing.*;
 import sx.widgets.Bmp;
 import sx.widgets.Button;
 import sx.widgets.HBox;
-import sx.widgets.Progress;
+import sx.widgets.ProgressBar;
 import sx.widgets.Text;
 import sx.widgets.TextInput;
 import sx.widgets.VBox;
@@ -145,7 +145,7 @@ class Main
      */
     static public function addProgressBars () : Void
     {
-        var randomValue = function (p:Progress) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
+        var randomValue = function (p:ProgressBar) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
 
         var box = new VBox();
         box.gap     = 20;
@@ -153,21 +153,21 @@ class Main
         box.left    = 200;
         box.top     = 80;
 
-        var progress = new Progress();
+        var progress = new ProgressBar();
         progress.value  = randomValue(progress);
         progress.easing = Quad.easeOut;
         progress.interactive = true;
         box.addChild(progress);
 
-        var progress = new Progress();
-        progress.style  = ProgressStyle.WARNING;
+        var progress = new ProgressBar();
+        progress.style  = ProgressBarStyle.WARNING;
         progress.value  = randomValue(progress);
         progress.easing = Quad.easeOut;
         progress.interactive = true;
         box.addChild(progress);
 
-        var progress = new Progress();
-        progress.style  = ProgressStyle.CONCRETE;
+        var progress = new ProgressBar();
+        progress.style  = ProgressBarStyle.CONCRETE;
         progress.value  = randomValue(progress);
         progress.easing = Quad.easeOut;
         progress.interactive = true;
@@ -178,27 +178,27 @@ class Main
         hbox.gap = 30;
         hbox.padding = 10;
 
-        var progress = new Progress();
-        progress.style  = ProgressStyle.DANGER_VERTICAL;
+        var progress = new ProgressBar();
+        progress.style  = ProgressBarStyle.DANGER_VERTICAL;
         progress.value  = randomValue(progress);
         progress.interactive = true;
         hbox.addChild(progress);
 
-        var progress = new Progress();
-        progress.style  = ProgressStyle.SUCCESS_VERTICAL;
+        var progress = new ProgressBar();
+        progress.style  = ProgressBarStyle.SUCCESS_VERTICAL;
         progress.value  = randomValue(progress);
         progress.interactive = true;
         hbox.addChild(progress);
 
-        var progress = new Progress();
-        progress.style  = ProgressStyle.INVERSE_VERTICAL;
+        var progress = new ProgressBar();
+        progress.style  = ProgressBarStyle.INVERSE_VERTICAL;
         progress.value  = randomValue(progress);
         progress.interactive = true;
         progress.bar.top.select();
         hbox.addChild(progress);
 
-        var progress = new Progress();
-        progress.style  = ProgressStyle.INFO_VERTICAL;
+        var progress = new ProgressBar();
+        progress.style  = ProgressBarStyle.INFO_VERTICAL;
         progress.value  = randomValue(progress);
         progress.interactive = true;
         progress.bar.top.select();
