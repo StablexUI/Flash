@@ -46,7 +46,7 @@ class PaintSkin extends PaintSkinBase
 
         if (hasCorners()) {
             var cornerRadius = Sx.snap(corners.px);
-            canvas.graphics.drawRoundRect(x, y, width, height, cornerRadius);
+            canvas.graphics.drawRoundRect(x, y, width, height, cornerRadius * 2);
         } else {
             canvas.graphics.drawRect(x, y, width, height);
         }

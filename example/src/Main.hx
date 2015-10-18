@@ -9,6 +9,7 @@ import sx.skins.PaintSkin;
 import sx.Sx;
 import sx.themes.flatui.ButtonStyle;
 import sx.themes.flatui.ProgressBarStyle;
+import sx.themes.flatui.SliderStyle;
 import sx.themes.flatui.TextInputStyle;
 import sx.themes.FlatUITheme;
 import sx.tween.easing.*;
@@ -20,6 +21,7 @@ import sx.widgets.Text;
 import sx.widgets.TextInput;
 import sx.widgets.VBox;
 import sx.widgets.Widget;
+import sx.widgets.Slider;
 
 using Std;
 
@@ -57,6 +59,7 @@ class Main
         addButtons();
         addTextInputs();
         addProgressBars();
+        addSliders();
     }
 
 
@@ -79,8 +82,8 @@ class Main
         box.addChild(btn);
 
         var btn = new Button();
-        btn.text = 'Concrete Button';
-        btn.style = ButtonStyle.CONCRETE;
+        btn.text = 'Silver Button';
+        btn.style = ButtonStyle.SILVER;
         box.addChild(btn);
 
         var btn = new Button();
@@ -145,7 +148,7 @@ class Main
      */
     static public function addProgressBars () : Void
     {
-        var randomValue = function (p:ProgressBar) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
+        function randomValue (p:ProgressBar) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
 
         var box = new VBox();
         box.gap     = 20;
@@ -155,21 +158,18 @@ class Main
 
         var progress = new ProgressBar();
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         box.addChild(progress);
 
         var progress = new ProgressBar();
         progress.style  = ProgressBarStyle.WARNING;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         box.addChild(progress);
 
         var progress = new ProgressBar();
-        progress.style  = ProgressBarStyle.CONCRETE;
+        progress.style  = ProgressBarStyle.SILVER;
         progress.value  = randomValue(progress);
-        progress.easing = Quad.easeOut;
         progress.interactive = true;
         progress.bar.right.select();
         box.addChild(progress);
@@ -203,6 +203,65 @@ class Main
         progress.interactive = true;
         progress.bar.top.select();
         hbox.addChild(progress);
+
+        box.addChild(hbox);
+        Sx.root.addChild(box);
+    }
+
+
+    /**
+     * Description
+     */
+    static public function addSliders () : Void
+    {
+        function randomValue (p:Slider) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
+
+        var box = new VBox();
+        box.gap     = 20;
+        box.padding = 10;
+        box.left    = 400;
+        box.top     = 80;
+
+        var slider = new Slider();
+        slider.value  = randomValue(slider);
+        box.addChild(slider);
+
+        var slider = new Slider();
+        slider.style  = SliderStyle.WARNING;
+        slider.value  = randomValue(slider);
+        box.addChild(slider);
+
+        var slider = new Slider();
+        slider.style  = SliderStyle.SILVER;
+        slider.value  = randomValue(slider);
+        slider.thumb.right.select();
+        box.addChild(slider);
+
+        var hbox = new HBox();
+        hbox.gap = 30;
+        hbox.padding = 10;
+
+        var slider = new Slider();
+        slider.style  = SliderStyle.DANGER_VERTICAL;
+        slider.value  = randomValue(slider);
+        hbox.addChild(slider);
+
+        var slider = new Slider();
+        slider.style  = SliderStyle.SUCCESS_VERTICAL;
+        slider.value  = randomValue(slider);
+        hbox.addChild(slider);
+
+        var slider = new Slider();
+        slider.style  = SliderStyle.INVERSE_VERTICAL;
+        slider.value  = randomValue(slider);
+        slider.thumb.top.select();
+        hbox.addChild(slider);
+
+        var slider = new Slider();
+        slider.style  = SliderStyle.INFO_VERTICAL;
+        slider.value  = randomValue(slider);
+        slider.thumb.top.select();
+        hbox.addChild(slider);
 
         box.addChild(hbox);
         Sx.root.addChild(box);
