@@ -15,6 +15,7 @@ import sx.themes.FlatUITheme;
 import sx.tween.easing.*;
 import sx.widgets.Bmp;
 import sx.widgets.Button;
+import sx.widgets.Checkbox;
 import sx.widgets.HBox;
 import sx.widgets.ProgressBar;
 import sx.widgets.Text;
@@ -57,11 +58,17 @@ class Main
      */
     static public function run () : Void
     {
-        addButtons();
-        addTextInputs();
-        addProgressBars();
-        addSliders();
-        addToggleButtons();
+
+        var check = new Checkbox();
+        check.text = 'Check me';
+
+        Sx.root.addChild(check);
+
+        // addButtons();
+        // addTextInputs();
+        // addProgressBars();
+        // addSliders();
+        // addToggleButtons();
     }
 
 
