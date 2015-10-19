@@ -86,7 +86,7 @@ class BackendManager implements IBackendManager
         __root.width.px = stage.stageWidth;
         __root.height.px = stage.stageHeight;
 
-        stage.addChild(__root.backend);
+        Lib.current.addChild(__root.backend);
         __root.initialize();
 
         //adjust root size according to stage size

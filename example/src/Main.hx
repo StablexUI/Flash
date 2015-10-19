@@ -58,17 +58,12 @@ class Main
      */
     static public function run () : Void
     {
-
-        var check = new Checkbox();
-        check.text = 'Check me';
-
-        Sx.root.addChild(check);
-
-        // addButtons();
-        // addTextInputs();
-        // addProgressBars();
-        // addSliders();
-        // addToggleButtons();
+        addButtons();
+        addTextInputs();
+        addProgressBars();
+        addSliders();
+        addToggleButtons();
+        addCheckboxes();
     }
 
 
@@ -135,7 +130,7 @@ class Main
         box.left = 200;
 
         var input = new TextInput();
-        input.invitation = 'Default Input';
+        input.invitation = String.fromCharCode(0x20ac);//'Default Input';
         box.addChild(input);
 
         var input = new TextInput();
@@ -345,6 +340,25 @@ class Main
 
         box.addChild(hbox1);
         box.addChild(hbox2);
+        Sx.root.addChild(box);
+    }
+
+
+    /**
+     * Description
+     */
+    static public function addCheckboxes () : Void
+    {
+        var box = new HBox();
+        box.gap = 10;
+        box.padding = 10;
+        box.left = 600;
+        box.top = 80;
+
+        var check = new Checkbox();
+        check.text = 'Check me';
+        box.addChild(check);
+
         Sx.root.addChild(box);
     }
 
