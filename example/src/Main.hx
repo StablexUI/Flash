@@ -22,6 +22,7 @@ import sx.widgets.TextInput;
 import sx.widgets.VBox;
 import sx.widgets.Widget;
 import sx.widgets.Slider;
+import sx.widgets.ToggleButton;
 
 using Std;
 
@@ -44,7 +45,7 @@ class Main
         Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
         Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 
-        // Sx.dipFactor  = 1.53;
+        // Sx.dipFactor  = 0.4;
         // Sx.pixelSnapping = true;
         Sx.theme = new FlatUITheme();
         Sx.init(run);
@@ -60,6 +61,7 @@ class Main
         addTextInputs();
         addProgressBars();
         addSliders();
+        addToggleButtons();
     }
 
 
@@ -264,6 +266,78 @@ class Main
         hbox.addChild(slider);
 
         box.addChild(hbox);
+        Sx.root.addChild(box);
+    }
+
+
+    /**
+     * Description
+     */
+    static public function addToggleButtons () : Void
+    {
+        var box = new VBox();
+        box.padding = 10;
+        box.bottom = 10;
+        box.offset.set(-0.5, 0);
+        box.left.pct = 50;
+
+        var hbox1 = new HBox();
+        hbox1.padding = 5;
+        hbox1.gap = 10;
+
+        var hbox2 = new HBox();
+        hbox2.padding = 5;
+        hbox2.gap = 10;
+
+        var btn = new ToggleButton();
+        btn.up.text = 'Default';
+        btn.down.text = 'Default selected';
+        hbox1.addChild(btn);
+
+        var btn = new ToggleButton();
+        btn.text = 'Warning';
+        btn.down.text = 'Warning selected';
+        btn.style = ButtonStyle.WARNING;
+        hbox1.addChild(btn);
+
+        var btn = new ToggleButton();
+        btn.text = 'Silver';
+        btn.down.text = 'Silver selected';
+        btn.style = ButtonStyle.SILVER;
+        hbox1.addChild(btn);
+
+        var btn = new ToggleButton();
+        btn.text = 'Danger';
+        btn.down.text = 'Danger selected';
+        btn.style = ButtonStyle.DANGER;
+        hbox2.addChild(btn);
+
+        var btn = new ToggleButton();
+        btn.text = 'Success';
+        btn.down.text = 'Success selected';
+        btn.style = ButtonStyle.SUCCESS;
+        hbox2.addChild(btn);
+
+        var btn = new ToggleButton();
+        btn.text = 'Inverse';
+        btn.down.text = 'Inverse selected';
+        btn.style = ButtonStyle.INVERSE;
+        hbox2.addChild(btn);
+
+        var btn = new ToggleButton();
+        btn.text = 'Info';
+        btn.down.text = 'Info selected';
+        btn.style = ButtonStyle.INFO;
+        hbox2.addChild(btn);
+
+        var btn = new ToggleButton();
+        btn.text = 'Disabled';
+        btn.down.text = 'Disabled selected';
+        btn.enabled = false;
+        hbox2.addChild(btn);
+
+        box.addChild(hbox1);
+        box.addChild(hbox2);
         Sx.root.addChild(box);
     }
 
