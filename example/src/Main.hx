@@ -109,9 +109,8 @@ class Main
         var btn = new Button();
         btn.text = 'Disabled Button';
         btn.enabled = false;
-        // btn.style = ButtonStyle.DISABLED;
         box.addChild(btn);
-box.onClick.add(function(p,d,t) btn.enabled = !btn.enabled);
+
         Sx.root.addChild(box);
     }
 
