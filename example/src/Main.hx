@@ -10,6 +10,7 @@ import sx.Sx;
 import sx.themes.flatui.styles.ButtonStyle;
 import sx.themes.flatui.styles.CheckboxStyle;
 import sx.themes.flatui.styles.ProgressBarStyle;
+import sx.themes.flatui.styles.RadioStyle;
 import sx.themes.flatui.styles.SliderStyle;
 import sx.themes.flatui.styles.TextInputStyle;
 import sx.themes.FlatUITheme;
@@ -59,12 +60,13 @@ class Main
      */
     static public function run () : Void
     {
-        addToggleButtons();
-        addButtons();
-        addTextInputs();
-        addProgressBars();
-        addSliders();
-        addCheckboxes();
+        // addToggleButtons();
+        // addButtons();
+        // addTextInputs();
+        // addProgressBars();
+        // addSliders();
+        // addCheckboxes();
+        addRadios();
     }
 
 
@@ -363,6 +365,52 @@ class Main
         check.text = 'Info';
         check.selected = true;
         check.style = CheckboxStyle.INFO;
+        box.addChild(check);
+
+        Sx.root.addChild(box);
+    }
+
+
+    /**
+     * Description
+     */
+    static public function addRadios () : Void
+    {
+        var box = new VBox();
+        box.gap = 10;
+        box.padding = 10;
+        box.left = 80;//750;
+        box.align = Left & Top;
+        box.top = 80;
+
+        var check = new Radio();
+        check.text = 'Default';
+        check.selected = true;
+        box.addChild(check);
+
+        var check = new Radio();
+        check.text = 'Warning';
+        check.style = RadioStyle.WARNING;
+        box.addChild(check);
+
+        var check = new Radio();
+        check.text = 'Danger';
+        check.style = RadioStyle.DANGER;
+        box.addChild(check);
+
+        var check = new Radio();
+        check.text = 'Success';
+        check.style = RadioStyle.SUCCESS;
+        box.addChild(check);
+
+        var check = new Radio();
+        check.text = 'Inverse';
+        check.style = RadioStyle.INVERSE;
+        box.addChild(check);
+
+        var check = new Radio();
+        check.text = 'Info';
+        check.style = RadioStyle.INFO;
         box.addChild(check);
 
         Sx.root.addChild(box);
