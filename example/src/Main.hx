@@ -20,6 +20,7 @@ import sx.widgets.Button;
 import sx.widgets.Checkbox;
 import sx.widgets.HBox;
 import sx.widgets.ProgressBar;
+import sx.widgets.Radio;
 import sx.widgets.Text;
 import sx.widgets.TextInput;
 import sx.widgets.VBox;
@@ -60,12 +61,12 @@ class Main
      */
     static public function run () : Void
     {
-        // addToggleButtons();
-        // addButtons();
-        // addTextInputs();
-        // addProgressBars();
-        // addSliders();
-        // addCheckboxes();
+        addToggleButtons();
+        addButtons();
+        addTextInputs();
+        addProgressBars();
+        addSliders();
+        addCheckboxes();
         addRadios();
     }
 
@@ -379,7 +380,7 @@ class Main
         var box = new VBox();
         box.gap = 10;
         box.padding = 10;
-        box.left = 80;//750;
+        box.left = 800;
         box.align = Left & Top;
         box.top = 80;
 
