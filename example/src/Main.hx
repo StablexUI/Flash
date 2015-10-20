@@ -47,7 +47,7 @@ class Main
         Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
         Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 
-        // Sx.dipFactor  = 1.53;
+        // Sx.dipFactor  = 0.4;
         // Sx.pixelSnapping = true;
         Sx.theme = new FlatUITheme();
         Sx.init(run);
@@ -59,11 +59,11 @@ class Main
      */
     static public function run () : Void
     {
+        addToggleButtons();
         addButtons();
         addTextInputs();
         addProgressBars();
         addSliders();
-        addToggleButtons();
         addCheckboxes();
     }
 

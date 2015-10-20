@@ -3,7 +3,7 @@
 -cp src
 -main Main
 -debug
--swf-header 1024:600:60:FFFFFF
+-swf-header 320:200:60:FFFFFF
 -swf-version 11.3
 -swf flash.swf
 
