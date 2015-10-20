@@ -87,11 +87,6 @@ class Main
         box.addChild(btn);
 
         var btn = new Button();
-        btn.text = 'Silver Button';
-        btn.style = ButtonStyle.SILVER;
-        box.addChild(btn);
-
-        var btn = new Button();
         btn.text = 'Danger Button';
         btn.style = ButtonStyle.DANGER;
         box.addChild(btn);
@@ -172,13 +167,6 @@ class Main
         progress.interactive = true;
         box.addChild(progress);
 
-        var progress = new ProgressBar();
-        progress.style  = ProgressBarStyle.SILVER;
-        progress.value  = randomValue(progress);
-        progress.interactive = true;
-        progress.bar.right.select();
-        box.addChild(progress);
-
         var hbox = new HBox();
         hbox.gap = 30;
         hbox.padding = 10;
@@ -234,12 +222,6 @@ class Main
         var slider = new Slider();
         slider.style  = SliderStyle.WARNING;
         slider.value  = randomValue(slider);
-        box.addChild(slider);
-
-        var slider = new Slider();
-        slider.style  = SliderStyle.SILVER;
-        slider.value  = randomValue(slider);
-        slider.thumb.right.select();
         box.addChild(slider);
 
         var hbox = new HBox();
@@ -304,12 +286,6 @@ class Main
         hbox1.addChild(btn);
 
         var btn = new ToggleButton();
-        btn.text = 'Silver';
-        btn.down.text = 'Silver selected';
-        btn.style = ButtonStyle.SILVER;
-        hbox1.addChild(btn);
-
-        var btn = new ToggleButton();
         btn.text = 'Danger';
         btn.down.text = 'Danger selected';
         btn.style = ButtonStyle.DANGER;
@@ -365,12 +341,6 @@ class Main
         var check = new Checkbox();
         check.text = 'Warning';
         check.style = CheckboxStyle.WARNING;
-        box.addChild(check);
-
-        var check = new Checkbox();
-        check.text = 'Silver';
-        check.selected = true;
-        check.style = CheckboxStyle.SILVER;
         box.addChild(check);
 
         var check = new Checkbox();
