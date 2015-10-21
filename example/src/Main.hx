@@ -49,8 +49,8 @@ class Main
         Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
         Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 
-        // Sx.dipFactor  = 0.4;
-        // Sx.pixelSnapping = true;
+        Sx.dipFactor  = 0.6;
+        Sx.pixelSnapping = true;
         Sx.theme = new FlatUITheme();
         Sx.init(run);
     }
@@ -61,6 +61,11 @@ class Main
      */
     static public function run () : Void
     {
+
+        Lib.current.graphics.beginFill(0x888888);
+        Lib.current.graphics.drawRect(0, 0, 100, 100);
+        Lib.current.graphics.endFill();
+
         addToggleButtons();
         addButtons();
         addTextInputs();
