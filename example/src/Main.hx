@@ -3,6 +3,7 @@ package ;
 import flash.events.Event;
 import flash.Lib;
 import sx.backend.BitmapData;
+import sx.groups.RadioGroup;
 import sx.layout.LineLayout;
 import sx.skins.PaintSkin;
 import sx.properties.Align;
@@ -49,8 +50,8 @@ class Main
         Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
         Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 
-        Sx.dipFactor  = 0.6;
-        Sx.pixelSnapping = true;
+        // Sx.dipFactor  = 0.6;
+        // Sx.pixelSnapping = true;
         Sx.theme = new FlatUITheme();
         Sx.init(run);
     }
@@ -389,35 +390,43 @@ class Main
         box.align = Left & Top;
         box.top = 80;
 
-        var check = new Radio();
-        check.text = 'Default';
-        check.selected = true;
-        box.addChild(check);
+        var group = new RadioGroup();
 
-        var check = new Radio();
-        check.text = 'Warning';
-        check.style = RadioStyle.WARNING;
-        box.addChild(check);
+        var radio = new Radio();
+        radio.text = 'Default';
+        radio.selected = true;
+        radio.group = group;
+        box.addChild(radio);
 
-        var check = new Radio();
-        check.text = 'Danger';
-        check.style = RadioStyle.DANGER;
-        box.addChild(check);
+        var radio = new Radio();
+        radio.text = 'Warning';
+        radio.style = RadioStyle.WARNING;
+        radio.group = group;
+        box.addChild(radio);
 
-        var check = new Radio();
-        check.text = 'Success';
-        check.style = RadioStyle.SUCCESS;
-        box.addChild(check);
+        var radio = new Radio();
+        radio.text = 'Danger';
+        radio.style = RadioStyle.DANGER;
+        radio.group = group;
+        box.addChild(radio);
 
-        var check = new Radio();
-        check.text = 'Inverse';
-        check.style = RadioStyle.INVERSE;
-        box.addChild(check);
+        var radio = new Radio();
+        radio.text = 'Success';
+        radio.style = RadioStyle.SUCCESS;
+        radio.group = group;
+        box.addChild(radio);
 
-        var check = new Radio();
-        check.text = 'Info';
-        check.style = RadioStyle.INFO;
-        box.addChild(check);
+        var radio = new Radio();
+        radio.text = 'Inverse';
+        radio.style = RadioStyle.INVERSE;
+        radio.group = group;
+        box.addChild(radio);
+
+        var radio = new Radio();
+        radio.text = 'Info';
+        radio.style = RadioStyle.INFO;
+        radio.group = group;
+        box.addChild(radio);
 
         Sx.root.addChild(box);
     }
