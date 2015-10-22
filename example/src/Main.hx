@@ -62,11 +62,6 @@ class Main
      */
     static public function run () : Void
     {
-
-        Lib.current.graphics.beginFill(0x888888);
-        Lib.current.graphics.drawRect(0, 0, 100, 100);
-        Lib.current.graphics.endFill();
-
         addToggleButtons();
         addButtons();
         addTextInputs();
