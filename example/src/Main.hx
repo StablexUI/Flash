@@ -9,7 +9,7 @@ import sx.skins.PaintSkin;
 import sx.properties.Align;
 import sx.Sx;
 import sx.themes.flatui.styles.ButtonStyle;
-import sx.themes.flatui.styles.CheckboxStyle;
+import sx.themes.flatui.styles.CheckBoxStyle;
 import sx.themes.flatui.styles.ProgressBarStyle;
 import sx.themes.flatui.styles.RadioStyle;
 import sx.themes.flatui.styles.SliderStyle;
@@ -18,7 +18,7 @@ import sx.themes.FlatUITheme;
 import sx.tween.easing.*;
 import sx.widgets.Bmp;
 import sx.widgets.Button;
-import sx.widgets.Checkbox;
+import sx.widgets.CheckBox;
 import sx.widgets.HBox;
 import sx.widgets.ProgressBar;
 import sx.widgets.Radio;
@@ -67,7 +67,7 @@ class Main
         addTextInputs();
         addProgressBars();
         addSliders();
-        addCheckboxes();
+        addCheckBoxes();
         addRadios();
     }
 
@@ -328,7 +328,7 @@ class Main
     /**
      * Description
      */
-    static public function addCheckboxes () : Void
+    static public function addCheckBoxes () : Void
     {
         var box = new VBox();
         box.gap = 10;
@@ -337,36 +337,36 @@ class Main
         box.align = Left & Top;
         box.top = 80;
 
-        var check = new Checkbox();
+        var check = new CheckBox();
         check.text = 'Default';
         check.selected = true;
         box.addChild(check);
 
-        var check = new Checkbox();
+        var check = new CheckBox();
         check.text = 'Warning';
-        check.style = CheckboxStyle.WARNING;
+        check.style = CheckBoxStyle.WARNING;
         box.addChild(check);
 
-        var check = new Checkbox();
+        var check = new CheckBox();
         check.text = 'Danger';
-        check.style = CheckboxStyle.DANGER;
+        check.style = CheckBoxStyle.DANGER;
         box.addChild(check);
 
-        var check = new Checkbox();
+        var check = new CheckBox();
         check.text = 'Success';
         check.selected = true;
-        check.style = CheckboxStyle.SUCCESS;
+        check.style = CheckBoxStyle.SUCCESS;
         box.addChild(check);
 
-        var check = new Checkbox();
+        var check = new CheckBox();
         check.text = 'Inverse';
-        check.style = CheckboxStyle.INVERSE;
+        check.style = CheckBoxStyle.INVERSE;
         box.addChild(check);
 
-        var check = new Checkbox();
+        var check = new CheckBox();
         check.text = 'Info';
         check.selected = true;
-        check.style = CheckboxStyle.INFO;
+        check.style = CheckBoxStyle.INFO;
         box.addChild(check);
 
         Sx.root.addChild(box);
