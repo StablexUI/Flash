@@ -7,6 +7,7 @@ import sx.groups.RadioGroup;
 import sx.layout.LineLayout;
 import sx.skins.PaintSkin;
 import sx.properties.Align;
+import sx.skins.Skin;
 import sx.Sx;
 import sx.themes.flatui.styles.ButtonStyle;
 import sx.themes.flatui.styles.CheckBoxStyle;
@@ -15,6 +16,7 @@ import sx.themes.flatui.styles.RadioStyle;
 import sx.themes.flatui.styles.SliderStyle;
 import sx.themes.flatui.styles.TextInputStyle;
 import sx.themes.FlatUITheme;
+import sx.transitions.FadeTransition;
 import sx.tween.easing.*;
 import sx.widgets.Bmp;
 import sx.widgets.Button;
@@ -25,6 +27,7 @@ import sx.widgets.Radio;
 import sx.widgets.Text;
 import sx.widgets.TextInput;
 import sx.widgets.VBox;
+import sx.widgets.ViewStack;
 import sx.widgets.Widget;
 import sx.widgets.Slider;
 import sx.widgets.ToggleButton;
@@ -38,8 +41,8 @@ using Std;
  */
 class Main
 {
-    /** Widget used as root to not bother about other widgets initialization. */
-    static private var root : Widget;
+    /** View stack to switch components demos */
+    static private var viewStack : ViewStack;
 
 
     /**
@@ -62,20 +65,71 @@ class Main
      */
     static public function run () : Void
     {
-        addToggleButtons();
-        addButtons();
-        addTextInputs();
-        addProgressBars();
-        addSliders();
-        addCheckBoxes();
-        addRadios();
+        var menu = new HBox();
+        menu.padding = 20;
+        menu.gap     = 10;
+        menu.width.pct = 100;
+
+        viewStack = new ViewStack();
+        viewStack.width.pct  = 100;
+        viewStack.height.pct = 100;
+        viewStack.transition = new FadeTransition();
+        viewStack.transition.duration = 0.1;
+
+        menu.onResize.add(function(_,_,_,_) {
+            viewStack.top    = menu.height;
+            viewStack.height.pct = 100 * (1 - (menu.height / Sx.root.height));
+        });
+
+        var pages = [
+            'Buttons'        => addButtons(),
+            'Toggle Buttons' => addToggleButtons(),
+            'Text Inputs'    => addTextInputs(),
+            'Progress Bars'  => addProgressBars(),
+            'Sliders'        => addSliders(),
+            'Checkboxes'     => addCheckBoxes(),
+            'Radio Toggles'  => addRadios(),
+        ];
+        for (pageName in pages.keys()) {
+            var menuItem = new Button();
+            menuItem.text = pageName;
+            menuItem.autoSize = true;
+            menuItem.onTrigger.add(function(btn) viewStack.show(btn.text));
+            menu.addChild(menuItem);
+
+            var page = pages.get(pageName);
+            page.name = pageName;
+            page.width.pct  = 100;
+            page.height.pct = 100;
+            page.skin = whiteSkin();
+            viewStack.addChild(page);
+        }
+
+        Sx.root.addChild(menu);
+        Sx.root.addChild(viewStack);
+    }
+
+    /**
+     * Creates white skin to use as opaque background
+     */
+    static private function whiteSkin () : Skin
+    {
+        var colors = [FlatUITheme.COLOR_TURQUOISE, FlatUITheme.COLOR_EMERALD, FlatUITheme.COLOR_PETER_RIVER, FlatUITheme.COLOR_AMETHYST, FlatUITheme.COLOR_WET_ASPHALT, FlatUITheme.COLOR_SUN_FLOWER, FlatUITheme.COLOR_CARROT, FlatUITheme.COLOR_ALIZARIN];
+
+        var skin = new PaintSkin();
+        skin.color = 0xFFFFFF;
+        skin.corners = 16;
+        skin.border.width   = 8;
+        skin.border.color = colors[Std.random(colors.length)];
+
+        return skin;
     }
 
 
     /**
      * Description
      */
-    static public function addButtons () : Void
+    static public function addButtons () : Widget
     {
         var box = new VBox();
         box.gap = 10;
@@ -115,19 +169,18 @@ class Main
         btn.enabled = false;
         box.addChild(btn);
 
-        Sx.root.addChild(box);
+        return box;
     }
 
 
     /**
      * Description
      */
-    static public function addTextInputs () : Void
+    static public function addTextInputs () : Widget
     {
         var box = new HBox();
         box.gap = 10;
         box.padding = 10;
-        box.left = 200;
 
         var input = new TextInput();
         input.invitation = 'Default Input';
@@ -143,22 +196,20 @@ class Main
         input.invitation = 'Error Input';
         box.addChild(input);
 
-        Sx.root.addChild(box);
+        return box;
     }
 
 
     /**
      * Description
      */
-    static public function addProgressBars () : Void
+    static public function addProgressBars () : Widget
     {
         function randomValue (p:ProgressBar) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
 
         var box = new VBox();
         box.gap     = 20;
         box.padding = 10;
-        box.left    = 200;
-        box.top     = 80;
 
         var progress = new ProgressBar();
         progress.value  = randomValue(progress);
@@ -202,22 +253,21 @@ class Main
         hbox.addChild(progress);
 
         box.addChild(hbox);
-        Sx.root.addChild(box);
+
+        return box;
     }
 
 
     /**
      * Description
      */
-    static public function addSliders () : Void
+    static public function addSliders () : Widget
     {
         function randomValue (p:Slider) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
 
         var box = new VBox();
         box.gap     = 20;
         box.padding = 10;
-        box.left    = 400;
-        box.top     = 80;
 
         var slider = new Slider();
         slider.value  = randomValue(slider);
@@ -255,20 +305,18 @@ class Main
         hbox.addChild(slider);
 
         box.addChild(hbox);
-        Sx.root.addChild(box);
+
+        return box;
     }
 
 
     /**
      * Description
      */
-    static public function addToggleButtons () : Void
+    static public function addToggleButtons () : Widget
     {
         var box = new VBox();
         box.padding = 10;
-        box.bottom = 10;
-        box.offset.set(-0.5, 0);
-        box.left.pct = 50;
 
         var hbox1 = new HBox();
         hbox1.padding = 5;
@@ -321,21 +369,20 @@ class Main
 
         box.addChild(hbox1);
         box.addChild(hbox2);
-        Sx.root.addChild(box);
+
+        return box;
     }
 
 
     /**
      * Description
      */
-    static public function addCheckBoxes () : Void
+    static public function addCheckBoxes () : Widget
     {
         var box = new VBox();
         box.gap = 10;
         box.padding = 10;
-        box.left = 600;
         box.align = Left & Top;
-        box.top = 80;
 
         var check = new CheckBox();
         check.text = 'Default';
@@ -369,21 +416,22 @@ class Main
         check.style = CheckBoxStyle.INFO;
         box.addChild(check);
 
-        Sx.root.addChild(box);
+        var container = new VBox();
+        container.addChild(box);
+
+        return container;
     }
 
 
     /**
      * Description
      */
-    static public function addRadios () : Void
+    static public function addRadios () : Widget
     {
         var box = new VBox();
         box.gap = 10;
         box.padding = 10;
-        box.left = 800;
         box.align = Left & Top;
-        box.top = 80;
 
         var group = new RadioGroup();
 
@@ -423,7 +471,10 @@ class Main
         radio.group = group;
         box.addChild(radio);
 
-        Sx.root.addChild(box);
+        var container = new VBox();
+        container.addChild(box);
+
+        return container;
     }
 
 }//class Main
