@@ -85,15 +85,18 @@ class Main
         });
 
         var pages = [
-            'Buttons'        => addButtons(),
-            'Toggle Buttons' => addToggleButtons(),
-            'Text Inputs'    => addTextInputs(),
-            'Progress Bars'  => addProgressBars(),
-            'Sliders'        => addSliders(),
-            'Checkboxes'     => addCheckBoxes(),
-            'Radio Toggles'  => addRadios(),
+            'Buttons'        => buttons(),
+            'Toggle Buttons' => toggleButtons(),
+            'Text Inputs'    => textInputs(),
+            'Progress Bars'  => progressBars(),
+            'Sliders'        => sliders(),
+            'Checkboxes'     => checkBoxes(),
+            'Radio Toggles'  => radios(),
         ];
-        for (pageName in pages.keys()) {
+        var sorted = [for (pageName in pages.keys()) pageName];
+        sorted.sort(Reflect.compare);
+
+        for (pageName in sorted) {
             var menuItem = new Button();
             menuItem.text = pageName;
             menuItem.autoSize = true;
@@ -117,13 +120,13 @@ class Main
      */
     static private function whiteSkin () : Skin
     {
-        var colors = [FlatUITheme.COLOR_TURQUOISE, FlatUITheme.COLOR_EMERALD, FlatUITheme.COLOR_PETER_RIVER, FlatUITheme.COLOR_AMETHYST, FlatUITheme.COLOR_WET_ASPHALT, FlatUITheme.COLOR_SUN_FLOWER, FlatUITheme.COLOR_CARROT, FlatUITheme.COLOR_ALIZARIN];
+        //var colors = [FlatUITheme.COLOR_TURQUOISE, FlatUITheme.COLOR_EMERALD, FlatUITheme.COLOR_PETER_RIVER, FlatUITheme.COLOR_AMETHYST, FlatUITheme.COLOR_WET_ASPHALT, FlatUITheme.COLOR_SUN_FLOWER, FlatUITheme.COLOR_CARROT, FlatUITheme.COLOR_ALIZARIN];
 
         var skin = new PaintSkin();
         skin.color = 0xFFFFFF;
         skin.corners = 16;
-        skin.border.width   = 8;
-        skin.border.color = colors[Std.random(colors.length)];
+        // skin.border.width   = 8;
+        // skin.border.color = colors[Std.random(colors.length)];
 
         return skin;
     }
@@ -132,7 +135,7 @@ class Main
     /**
      * Description
      */
-    static public function addButtons () : Widget
+    static public function buttons () : Widget
     {
         var box = new VBox();
         box.gap = 10;
@@ -179,7 +182,7 @@ class Main
     /**
      * Description
      */
-    static public function addTextInputs () : Widget
+    static public function textInputs () : Widget
     {
         var box = new HBox();
         box.gap = 10;
@@ -206,7 +209,7 @@ class Main
     /**
      * Description
      */
-    static public function addProgressBars () : Widget
+    static public function progressBars () : Widget
     {
         function randomValue (p:ProgressBar) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
 
@@ -257,6 +260,22 @@ class Main
 
         box.addChild(hbox);
 
+        var randomize = new Button();
+        randomize.text = 'Randomize values';
+        randomize.onTrigger.add(function(_) {
+            var child, bar;
+            for (parent in [box, hbox]) {
+                for (i in 0...parent.numChildren) {
+                    child = parent.getChildAt(i);
+                    if (Std.is(child, ProgressBar)) {
+                        bar = cast(child, ProgressBar);
+                        bar.value = randomValue(bar);
+                    }
+                }
+            }
+        });
+        box.addChild(randomize);
+
         return box;
     }
 
@@ -264,7 +283,7 @@ class Main
     /**
      * Description
      */
-    static public function addSliders () : Widget
+    static public function sliders () : Widget
     {
         function randomValue (p:Slider) return p.min + (0.2 + 0.6 * Math.random()) * (p.max - p.min);
 
@@ -309,6 +328,22 @@ class Main
 
         box.addChild(hbox);
 
+        var randomize = new Button();
+        randomize.text = 'Randomize values';
+        randomize.onTrigger.add(function(_) {
+            var child, slider;
+            for (parent in [box, hbox]) {
+                for (i in 0...parent.numChildren) {
+                    child = parent.getChildAt(i);
+                    if (Std.is(child, Slider)) {
+                        slider = cast(child, Slider);
+                        slider.value = randomValue(slider);
+                    }
+                }
+            }
+        });
+        box.addChild(randomize);
+
         return box;
     }
 
@@ -316,7 +351,7 @@ class Main
     /**
      * Description
      */
-    static public function addToggleButtons () : Widget
+    static public function toggleButtons () : Widget
     {
         var box = new VBox();
         box.padding = 10;
@@ -380,7 +415,7 @@ class Main
     /**
      * Description
      */
-    static public function addCheckBoxes () : Widget
+    static public function checkBoxes () : Widget
     {
         var box = new VBox();
         box.gap = 10;
@@ -429,7 +464,7 @@ class Main
     /**
      * Description
      */
-    static public function addRadios () : Widget
+    static public function radios () : Widget
     {
         var box = new VBox();
         box.gap = 10;
