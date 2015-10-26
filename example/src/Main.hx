@@ -53,8 +53,8 @@ class Main
         Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
         Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 
-        // Sx.dipFactor  = 0.6;
-        // Sx.pixelSnapping = true;
+        // Sx.dipFactor  = 0.8;
+        Sx.pixelSnapping = true;
         Sx.theme = new FlatUITheme();
         Sx.init(run);
     }
@@ -69,12 +69,15 @@ class Main
         menu.padding = 20;
         menu.gap     = 10;
         menu.width.pct = 100;
+        menu.origin.set(0.5, 0.5);
+        menu.scaleX = menu.scaleY = 0.85;
 
         viewStack = new ViewStack();
         viewStack.width.pct  = 100;
         viewStack.height.pct = 100;
         viewStack.transition = new FadeTransition();
         viewStack.transition.duration = 0.1;
+
 
         menu.onResize.add(function(_,_,_,_) {
             viewStack.top    = menu.height;

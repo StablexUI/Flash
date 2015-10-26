@@ -5,6 +5,7 @@ import sx.skins.base.PaintSkinBase;
 import sx.Sx;
 
 using sx.tools.PropertiesTools;
+using sx.Sx;
 
 
 /**
@@ -41,11 +42,15 @@ class PaintSkin extends PaintSkinBase
             canvas.graphics.beginFill(color, alpha);
         }
 
-        x = Sx.snap(x);
-        y = Sx.snap(x);
+        if (Sx.pixelSnapping) {
+            x = x.snap();
+            y = y.snap();
+            width = width.snap();
+            height = height.snap();
+        }
 
         if (hasCorners()) {
-            var cornerRadius = Sx.snap(corners.px);
+            var cornerRadius = corners.px.snap();
             canvas.graphics.drawRoundRect(x, y, width, height, cornerRadius * 2);
         } else {
             canvas.graphics.drawRect(x, y, width, height);
