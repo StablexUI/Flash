@@ -24,6 +24,7 @@ import sx.widgets.CheckBox;
 import sx.widgets.HBox;
 import sx.widgets.ProgressBar;
 import sx.widgets.Radio;
+import sx.widgets.TabBar;
 import sx.widgets.Text;
 import sx.widgets.TextInput;
 import sx.widgets.VBox;
@@ -41,6 +42,8 @@ using Std;
  */
 class Main
 {
+    /** Tabs to select `viewStack` page */
+    static private var menu : TabBar;
     /** View stack to switch components demos */
     static private var viewStack : ViewStack;
 
@@ -53,7 +56,7 @@ class Main
         Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
         Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 
-        // Sx.dipFactor  = 0.8;
+        // Sx.dipFactor  = 0.6;
         Sx.pixelSnapping = true;
         Sx.theme = new FlatUITheme();
         Sx.init(run);
@@ -65,24 +68,7 @@ class Main
      */
     static public function run () : Void
     {
-        var menu = new HBox();
-        menu.padding = 20;
-        menu.gap     = 10;
-        menu.width.pct = 100;
-        menu.origin.set(0.5, 0.5);
-        menu.scaleX = menu.scaleY = 0.85;
-
-        viewStack = new ViewStack();
-        viewStack.width.pct  = 100;
-        viewStack.height.pct = 100;
-        viewStack.transition = new FadeTransition();
-        viewStack.transition.duration = 0.1;
-
-
-        menu.onResize.add(function(_,_,_,_) {
-            viewStack.top    = menu.height;
-            viewStack.height.pct = 100 * (1 - (menu.height / Sx.root.height));
-        });
+        buildGui();
 
         var pages = [
             'Buttons'        => buttons(),
@@ -93,15 +79,13 @@ class Main
             'Checkboxes'     => checkBoxes(),
             'Radio Toggles'  => radios(),
         ];
+
+        //to ensure pages maintain order on each application run.
         var sorted = [for (pageName in pages.keys()) pageName];
         sorted.sort(Reflect.compare);
 
         for (pageName in sorted) {
-            var menuItem = new Button();
-            menuItem.text = pageName;
-            menuItem.autoSize = true;
-            menuItem.onTrigger.add(function(btn) viewStack.show(btn.text));
-            menu.addChild(menuItem);
+            menu.createTab(pageName);
 
             var page = pages.get(pageName);
             page.name = pageName;
@@ -110,23 +94,41 @@ class Main
             page.skin = whiteSkin();
             viewStack.addChild(page);
         }
+    }
+
+
+    /**
+     * Create tabs & view stack
+     */
+    static private function buildGui () : Void
+    {
+        menu = new TabBar();
+
+        viewStack = new ViewStack();
+        viewStack.width.pct  = 100;
+        viewStack.height.pct = 100;
+        viewStack.transition = new FadeTransition();
+        viewStack.transition.duration = 0.2;
+
+        menu.viewStack = viewStack;
+        menu.onResize.add(function(_,_,_,_) {
+            viewStack.top    = menu.height;
+            viewStack.height.pct = 100 * (1 - (menu.height / Sx.root.height));
+        });
 
         Sx.root.addChild(menu);
         Sx.root.addChild(viewStack);
     }
+
 
     /**
      * Creates white skin to use as opaque background
      */
     static private function whiteSkin () : Skin
     {
-        //var colors = [FlatUITheme.COLOR_TURQUOISE, FlatUITheme.COLOR_EMERALD, FlatUITheme.COLOR_PETER_RIVER, FlatUITheme.COLOR_AMETHYST, FlatUITheme.COLOR_WET_ASPHALT, FlatUITheme.COLOR_SUN_FLOWER, FlatUITheme.COLOR_CARROT, FlatUITheme.COLOR_ALIZARIN];
-
         var skin = new PaintSkin();
         skin.color = 0xFFFFFF;
         skin.corners = 16;
-        // skin.border.width   = 8;
-        // skin.border.color = colors[Std.random(colors.length)];
 
         return skin;
     }
@@ -355,58 +357,48 @@ class Main
     {
         var box = new VBox();
         box.padding = 10;
-
-        var hbox1 = new HBox();
-        hbox1.padding = 5;
-        hbox1.gap = 10;
-
-        var hbox2 = new HBox();
-        hbox2.padding = 5;
-        hbox2.gap = 10;
+        box.gap = 10;
 
         var btn = new ToggleButton();
         btn.up.text = 'Default';
         btn.down.text = 'Default selected';
-        hbox1.addChild(btn);
+        box.addChild(btn);
 
         var btn = new ToggleButton();
         btn.text = 'Warning';
         btn.down.text = 'Warning selected';
         btn.style = ButtonStyle.WARNING;
-        hbox1.addChild(btn);
+        box.addChild(btn);
 
         var btn = new ToggleButton();
         btn.text = 'Danger';
         btn.down.text = 'Danger selected';
         btn.style = ButtonStyle.DANGER;
-        hbox2.addChild(btn);
+        box.addChild(btn);
 
         var btn = new ToggleButton();
         btn.text = 'Success';
         btn.down.text = 'Success selected';
         btn.style = ButtonStyle.SUCCESS;
-        hbox2.addChild(btn);
+        box.addChild(btn);
 
         var btn = new ToggleButton();
         btn.text = 'Inverse';
         btn.down.text = 'Inverse selected';
         btn.style = ButtonStyle.INVERSE;
-        hbox2.addChild(btn);
+        box.addChild(btn);
 
         var btn = new ToggleButton();
         btn.text = 'Info';
         btn.down.text = 'Info selected';
         btn.style = ButtonStyle.INFO;
-        hbox2.addChild(btn);
+        box.addChild(btn);
 
         var btn = new ToggleButton();
         btn.text = 'Disabled';
         btn.down.text = 'Disabled selected';
         btn.enabled = false;
-        hbox2.addChild(btn);
-
-        box.addChild(hbox1);
-        box.addChild(hbox2);
+        box.addChild(btn);
 
         return box;
     }
