@@ -116,8 +116,8 @@ class Main
             viewStack.height.pct = 100 * (1 - (menu.height / Sx.root.height));
         });
 
-        Sx.root.addChild(menu);
         Sx.root.addChild(viewStack);
+        Sx.root.addChild(menu);
     }
 
 
