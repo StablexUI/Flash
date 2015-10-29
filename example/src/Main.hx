@@ -85,7 +85,7 @@ class Main
         sorted.sort(Reflect.compare);
 
         for (pageName in sorted) {
-            menu.createTab(pageName);
+            menu.createTab(pageName).name = pageName;
 
             var page = pages.get(pageName);
             page.name = pageName;
