@@ -27,8 +27,8 @@ class BackendManager implements IBackendManager
 {
     /** If mouse events listeners attached to stage */
     static private var __mouseEventsHandled : Bool = false;
-    /** If tweener is already set up */
-    static private var __tweenerHandled : Bool = false;
+    /** If ENTER_FRAME is already set up */
+    static private var __framesHandled : Bool = false;
     /** Widget for `sx.Sx.root` */
     static private var __root : Widget;
 
@@ -60,15 +60,15 @@ class BackendManager implements IBackendManager
 
 
     /**
-     * Setup tweener
+     * Setup ENTER_FRAME handler
      */
-    static private function __handleTweener () : Void
+    static private function __handleFrames () : Void
     {
-        if (__tweenerHandled) return;
-        __tweenerHandled = true;
+        if (__framesHandled) return;
+        __framesHandled = true;
 
         Lib.current.stage.addEventListener(Event.ENTER_FRAME, function(_) {
-            Tweener.update();
+            Sx.frame();
         });
     }
 
@@ -116,11 +116,11 @@ class BackendManager implements IBackendManager
 
 
     /**
-     * Setup `sx.tween.Tweener`: make `Tweener.update()` to be called regulary, set pause/unpause handlers etc.
+     * Start calling `Sx.frame()` on each frame.
      */
-    public function setupTweener () : Void
+    public function setupFrames () : Void
     {
-        __handleTweener();
+        __handleFrames();
     }
 
 
