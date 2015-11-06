@@ -526,7 +526,7 @@ class Main
         bmp.bitmapData = data;
 
         scroll.addChild(bmp);
-        // scroll.scrollBy(-bmp.width * 0.3, -bmp.height * 0.3);
+        scroll.scrollBy(-bmp.width * 0.3, -bmp.height * 0.3);
 
         var box = new HBox();
         box.addChild(scroll);
