@@ -24,6 +24,7 @@ import sx.widgets.CheckBox;
 import sx.widgets.HBox;
 import sx.widgets.ProgressBar;
 import sx.widgets.Radio;
+import sx.widgets.Scroll;
 import sx.widgets.TabBar;
 import sx.widgets.Text;
 import sx.widgets.TextInput;
@@ -78,6 +79,7 @@ class Main
             'Sliders'        => sliders(),
             'Checkboxes'     => checkBoxes(),
             'Radio Toggles'  => radios(),
+            'Scroll'         => scroll()
         ];
 
         //to ensure pages maintain order on each application run.
@@ -505,6 +507,31 @@ class Main
         container.addChild(box);
 
         return container;
+    }
+
+
+    /**
+     * Description
+     */
+    static public function scroll () : Widget
+    {
+        var scroll = new Scroll();
+        scroll.width  = 400;
+        scroll.height = 300;
+
+        var data = new BitmapData(1000, 1000);
+        data.perlinNoise(100, 80, 6, Std.random(10), false, false);
+
+        var bmp = new Bmp();
+        bmp.bitmapData = data;
+
+        scroll.addChild(bmp);
+        // scroll.scrollBy(-bmp.width * 0.3, -bmp.height * 0.3);
+
+        var box = new HBox();
+        box.addChild(scroll);
+
+        return box;
     }
 
 }//class Main
