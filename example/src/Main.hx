@@ -175,6 +175,7 @@ class Main
         var btn = new Button();
         btn.text = 'Info Button';
         btn.style = ButtonStyle.INFO;
+        btn.ico = Icons.infoCircle();
         box.addChild(btn);
 
         var btn = new Button();
@@ -576,6 +577,7 @@ class Main
         scroll.width  = 400;
         scroll.height = 300;
         scroll.addChild(bmp);
+
         scroll.scrollBy(-bmp.width * 0.3, -bmp.height * 0.3);
 
         var vertical = new CheckBox();
