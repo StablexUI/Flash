@@ -9,13 +9,16 @@ import sx.skins.PaintSkin;
 import sx.properties.Align;
 import sx.skins.Skin;
 import sx.Sx;
+import sx.themes.flatui.Icons;
 import sx.themes.flatui.styles.ButtonStyle;
 import sx.themes.flatui.styles.CheckBoxStyle;
 import sx.themes.flatui.styles.ProgressBarStyle;
 import sx.themes.flatui.styles.RadioStyle;
 import sx.themes.flatui.styles.SliderStyle;
 import sx.themes.flatui.styles.TextInputStyle;
+import sx.themes.flatui.styles.TextStyle;
 import sx.themes.FlatUITheme;
+import sx.themes.Theme;
 import sx.transitions.FadeTransition;
 import sx.tween.easing.*;
 import sx.widgets.Bmp;
@@ -188,23 +191,68 @@ class Main
      */
     static public function textInputs () : Widget
     {
-        var box = new HBox();
-        box.gap = 10;
-        box.padding = 10;
+        var box = new VBox();
+        box.gap = 20;
+
+        var row = new HBox();
+        row.gap = 10;
+        row.padding = 10;
 
         var input = new TextInput();
         input.invitation = 'Default Input';
-        box.addChild(input);
+        row.addChild(input);
 
         var input = new TextInput();
         input.style = TextInputStyle.SUCCESS;
         input.invitation = 'Success Input';
-        box.addChild(input);
+        row.addChild(input);
 
         var input = new TextInput();
         input.style = TextInputStyle.ERROR;
         input.invitation = 'Error Input';
-        box.addChild(input);
+        row.addChild(input);
+
+        box.addChild(row);
+
+        var row = new HBox();
+        row.gap = 10;
+        row.padding = 10;
+
+        var input = new TextInput();
+        input.applyStyle();
+        input.style = null;
+        input.invitation = 'Search';
+        input.padding.left = FlatUITheme.DEFAULT_ICO_SIZE + 10;
+        var icon = Icons.search(FlatUITheme.DEFAULT_ICO_SIZE, FlatUITheme.COLOR_SILVER_DARK);
+        icon.offset.top.pct = -50;
+        icon.top.pct = 50;
+        icon.left = 5;
+        input.addChild(icon);
+        row.addChild(input);
+
+        var input = new TextInput();
+        input.style = TextInputStyle.SUCCESS;
+        input.invitation = 'Type message';
+        input.padding.left = FlatUITheme.DEFAULT_ICO_SIZE + 10;
+        var icon = Icons.chat(FlatUITheme.DEFAULT_ICO_SIZE, FlatUITheme.COLOR_EMERALD);
+        icon.offset.top.pct = -50;
+        icon.top.pct = 50;
+        icon.left = 5;
+        input.addChild(icon);
+        row.addChild(input);
+
+        var input = new TextInput();
+        input.style = TextInputStyle.ERROR;
+        input.invitation = 'Invalid value';
+        input.padding.right = FlatUITheme.DEFAULT_ICO_SIZE + 10;
+        var icon = Icons.alertCircle(FlatUITheme.DEFAULT_ICO_SIZE, FlatUITheme.COLOR_PUMPKIN);
+        icon.offset.top.pct = -50;
+        icon.top.pct = 50;
+        icon.right = 5;
+        input.addChild(icon);
+        row.addChild(input);
+
+        box.addChild(row);
 
         return box;
     }
@@ -221,13 +269,17 @@ class Main
         box.gap     = 20;
         box.padding = 10;
 
+        var tip = new Text();
+        tip.text = 'Click bars to change values';
+        box.addChild(tip);
+
         var progress = new ProgressBar();
         progress.value  = randomValue(progress);
         progress.interactive = true;
         box.addChild(progress);
 
         var progress = new ProgressBar();
-        progress.style  = ProgressBarStyle.WARNING;
+        progress.style = ProgressBarStyle.WARNING;
         progress.value  = randomValue(progress);
         progress.interactive = true;
         box.addChild(progress);
@@ -515,20 +567,35 @@ class Main
      */
     static public function scroll () : Widget
     {
-        var scroll = new Scroll();
-        scroll.width  = 400;
-        scroll.height = 300;
-
         var data = new BitmapData(1000, 1000);
         data.perlinNoise(100, 80, 6, Std.random(10), false, false);
-
         var bmp = new Bmp();
         bmp.bitmapData = data;
 
+        var scroll = new Scroll();
+        scroll.width  = 400;
+        scroll.height = 300;
         scroll.addChild(bmp);
         scroll.scrollBy(-bmp.width * 0.3, -bmp.height * 0.3);
 
-        var box = new HBox();
+        var vertical = new CheckBox();
+        vertical.selected = true;
+        vertical.text = 'Vertical scrolling';
+        vertical.onToggle.add(function(b) scroll.verticalScroll = vertical.selected);
+
+        var horizontal = new CheckBox();
+        horizontal.selected = true;
+        horizontal.text = 'Horizontal scrolling';
+        horizontal.onToggle.add(function(b) scroll.horizontalScroll = horizontal.selected);
+
+        var checks = new HBox();
+        checks.gap = 30;
+        checks.addChild(horizontal);
+        checks.addChild(vertical);
+
+        var box = new VBox();
+        box.gap = 10;
+        box.addChild(checks);
         box.addChild(scroll);
 
         return box;
