@@ -1,6 +1,6 @@
 package sx.backend.flash;
 
-import hunit.TestCase;
+import sx.TestCase;
 import sx.widgets.Widget;
 
 

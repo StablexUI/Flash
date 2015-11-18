@@ -3,7 +3,7 @@ package sx.backend.flash;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.Lib;
-import hunit.TestCase;
+import sx.TestCase;
 import sx.backend.flash.BackendManager;
 import sx.Sx;
 import sx.widgets.Widget;

@@ -30,8 +30,8 @@ class PaintSkin extends PaintSkinBase
         if (hasPadding()) {
             x += padding.left.px;
             y += padding.top.px;
-            width  -= padding.sum(Horizontal);
-            height -= padding.sum(Vertical);
+            width  -= padding.sumPx(Horizontal);
+            height -= padding.sumPx(Vertical);
         }
 
         if (hasBorder()) {

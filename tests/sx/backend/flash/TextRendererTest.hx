@@ -1,7 +1,7 @@
 package sx.backend.flash;
 
 import flash.text.TextFormatAlign;
-import hunit.TestCase;
+import sx.TestCase;
 import sx.widgets.Text;
 
 
