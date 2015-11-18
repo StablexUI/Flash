@@ -23,12 +23,12 @@ class Slice9Skin extends Slice9SkinBase
      */
     override public function refresh () : Void
     {
-        if (__widget == null || __bitmapData == null) return;
+        if (__widget == null || bitmapData == null) return;
 
-        if (__slice == null) {
+        if (slice == null) {
             throw new InvalidArgumentException('Slice9Skin.slice is not set');
         }
-        if (__slice.length != 4) {
+        if (slice.length != 4) {
             throw new InvalidArgumentException('Slice9Skin.slice should contain exactly 4 values');
         }
         canvas.graphics.clear();
@@ -36,10 +36,10 @@ class Slice9Skin extends Slice9SkinBase
         var drawRect = new Rectangle(
             padding.left.px,
             padding.top.px,
-            __widget.width.px - padding.sumPx(Orientation),
-            __widget.height.px - padding.sumPx(Horizontal)
+            __widget.width.px - padding.sumPx(Horizontal),
+            __widget.height.px - padding.sumPx(Vertical)
         );
-        var srcRect = __bitmapData.rect;
+        var srcRect = bitmapData.rect;
 
         var src = new Rectangle();
         var dst = new Rectangle();
@@ -62,7 +62,7 @@ class Slice9Skin extends Slice9SkinBase
             dst.width  = _sliceSize(slice[0], srcRect.width) * scaleX;
             dst.height = _sliceSize(slice[2], srcRect.height) * scaleY;
 
-            _skinDrawSlice(w, bmp, src, dst);
+            __skinDrawSlice(bitmapData, src, dst);
         //}
 
         //top middle{
@@ -76,7 +76,7 @@ class Slice9Skin extends Slice9SkinBase
             dst.width  = drawRect.width - (_sliceSize(slice[0], srcRect.width) + (srcRect.width - _sliceSize(slice[1], srcRect.width))) * scaleX;
             dst.height = _sliceSize(slice[2], srcRect.height) * scaleY;
 
-            _skinDrawSlice(w, bmp, src, dst);
+            __skinDrawSlice(bitmapData, src, dst);
         //}
 
         //top right{
@@ -90,7 +90,7 @@ class Slice9Skin extends Slice9SkinBase
             dst.width  = src.width * scaleX;
             dst.height = _sliceSize(slice[2], srcRect.height) * scaleY;
 
-            _skinDrawSlice(w, bmp, src, dst);
+            __skinDrawSlice(bitmapData, src, dst);
         //}
 
         //middle left{
@@ -104,7 +104,7 @@ class Slice9Skin extends Slice9SkinBase
             dst.width  = _sliceSize(slice[0], srcRect.width) * scaleX;
             dst.height = drawRect.height - (_sliceSize(slice[2], srcRect.height) + (srcRect.height - _sliceSize(slice[3], srcRect.height))) * scaleY;
 
-            _skinDrawSlice(w, bmp, src, dst);
+            __skinDrawSlice(bitmapData, src, dst);
         //}
 
         //middle middle{
@@ -118,7 +118,7 @@ class Slice9Skin extends Slice9SkinBase
             dst.width  = drawRect.width - (_sliceSize(slice[0], srcRect.width) + (srcRect.width - _sliceSize(slice[1], srcRect.width))) * scaleX;
             dst.height = drawRect.height - (_sliceSize(slice[2], srcRect.height) + (srcRect.height - _sliceSize(slice[3], srcRect.height))) * scaleY;
 
-            _skinDrawSlice(w, bmp, src, dst);
+            __skinDrawSlice(bitmapData, src, dst);
         //}
 
         //middle right{
@@ -132,7 +132,7 @@ class Slice9Skin extends Slice9SkinBase
             dst.width  = src.width * scaleX;
             dst.height = drawRect.height - (_sliceSize(slice[2], srcRect.height) + (srcRect.height - _sliceSize(slice[3], srcRect.height))) * scaleY;
 
-            _skinDrawSlice(w, bmp, src, dst);
+            __skinDrawSlice(bitmapData, src, dst);
         //}
 
         //bottom left{
@@ -146,7 +146,7 @@ class Slice9Skin extends Slice9SkinBase
             dst.width  = _sliceSize(slice[0], srcRect.width) * scaleX;
             dst.height = src.height * scaleY;
 
-            _skinDrawSlice(w, bmp, src, dst);
+            __skinDrawSlice(bitmapData, src, dst);
         //}
 
         //bottom middle{
@@ -160,7 +160,7 @@ class Slice9Skin extends Slice9SkinBase
             dst.width  = drawRect.width - (_sliceSize(slice[0], srcRect.width) + (srcRect.width - _sliceSize(slice[1], srcRect.width))) * scaleX;
             dst.height = src.height * scaleY;
 
-            _skinDrawSlice(w, bmp, src, dst);
+            __skinDrawSlice(bitmapData, src, dst);
         //}
 
         //bottom right{
@@ -174,7 +174,7 @@ class Slice9Skin extends Slice9SkinBase
             dst.width  = src.width * scaleX;
             dst.height = src.height * scaleY;
 
-            _skinDrawSlice(w, bmp, src, dst);
+            __skinDrawSlice(bitmapData, src, dst);
         //}
     }
 
@@ -182,14 +182,14 @@ class Slice9Skin extends Slice9SkinBase
     /**
      * Draw slice for 9-slice scaling
      */
-    private function _skinDrawSlice(bmp:BitmapData, src:Rectangle, dst:Rectangle) : Void
+    private function __skinDrawSlice(bitmapData:BitmapData, src:Rectangle, dst:Rectangle) : Void
     {
         var mx = new Matrix();
         mx.translate(-src.x, -src.y);
         mx.scale(dst.width / src.width, dst.height / src.height);
         mx.translate(dst.x, dst.y);
 
-        canvas.graphics.beginBitmapFill(bmp, mx, false, smooth);
+        canvas.graphics.beginBitmapFill(bitmapData, mx, false, smooth);
         canvas.graphics.drawRect(dst.x, dst.y, dst.width, dst.height);
         canvas.graphics.endFill();
     }
