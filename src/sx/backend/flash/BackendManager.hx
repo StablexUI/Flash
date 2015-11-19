@@ -47,15 +47,18 @@ class BackendManager implements IBackendManager
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, function (e:MouseEvent) {
             Pointer.released(__ownerWidget(e.target));
         });
-        //for flash >= 11.3
-        if (MouseEvent.RELEASE_OUTSIDE != null) {
-            Lib.current.stage.addEventListener(MouseEvent.RELEASE_OUTSIDE, function (e:MouseEvent) {
-                Pointer.released(null);
-            });
-        }
         Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE, function (e:MouseEvent) {
             Pointer.moved(__ownerWidget(e.target));
         });
+        //openfl and nme does not support RELEASE_OUTSIDE
+        #if flash
+            //for flash >= 11.3
+            if (MouseEvent.RELEASE_OUTSIDE != null) {
+                Lib.current.stage.addEventListener(MouseEvent.RELEASE_OUTSIDE, function (e:MouseEvent) {
+                    Pointer.released(null);
+                });
+            }
+        #end
     }
 
 
@@ -189,7 +192,7 @@ class BackendManager implements IBackendManager
     static private function __ownerWidget (object:DisplayObject) : Null<Widget>
     {
         while (object != null) {
-            if (untyped __is__(object, Backend)) {
+            if (Std.is(object, Backend)) {
                 return cast(object, Backend).widget;
             }
             object = object.parent;
