@@ -23,7 +23,7 @@ class TextRenderer extends TextField implements ITextRenderer
     /** Callback to invoke when content size changes */
     private var __onResize : Null<Float->Float->Void>;
     /** Cached value for text alignment */
-    private var __align : #if nme String #else TextFormatAlign #end;
+    private var __align : #if (nme && !flash) String #else TextFormatAlign #end;
 
 
     /**

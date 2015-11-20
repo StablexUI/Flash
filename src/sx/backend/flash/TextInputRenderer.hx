@@ -46,6 +46,8 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
         __adjustHeightOneLine();
 
         __addListeners();
+
+        border = true;
     }
 
 
@@ -113,7 +115,6 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
         defaultTextFormat = format;
         setTextFormat(format);
         __adjustHeightOneLine();
-        __updatePosition();
     }
 
 
@@ -205,14 +206,26 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
             __onTextChange(text);
             __suppressOnTextChange = false;
         }
+        __adjustHeightOneLine();
     }
 
+#if (openfl && (cpp || neko))
+    /** Openfl hack: for some reason openfl on C++ and Neko fires FOCUS_IN event immediately after text field creation */
+    private var __firstFocus : Bool = true;
+#end
 
     /**
      * User placed cursor in this input
      */
     private function __onFocusIn (e:FocusEvent) : Void
     {
+    #if (openfl && (cpp || neko))
+        if (__firstFocus) {
+            __firstFocus = false;
+            return;
+        }
+    #end
+
         if (__onReceiveCursor != null) __onReceiveCursor();
     }
 
@@ -231,10 +244,23 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
      */
     private inline function __adjustHeightOneLine () : Void
     {
-        var width = this.width;
-        autoSize   = TextFieldAutoSize.LEFT;
-        this.width = width;
-        autoSize   = TextFieldAutoSize.NONE;
+        #if flash
+            var width = this.width;
+            autoSize   = TextFieldAutoSize.LEFT;
+            this.width = width;
+            autoSize   = TextFieldAutoSize.NONE;
+        //has for non-flash targets of openfl&nme
+        #else
+            if (text == '') {
+                if (!__suppressOnTextChange) {
+                __suppressOnTextChange = true;
+                __suppressOnTextChange = false;
+            }
+            var metrics = getLineMetrics(0);
+            height = metrics.height + 4;
+        #end
+
+        __updatePosition();
     }
 
 
