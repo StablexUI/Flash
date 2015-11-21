@@ -208,22 +208,15 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
         __adjustHeightOneLine();
     }
 
-#if (openfl && (cpp || neko) && !nme)
-    /** Openfl hack: for some reason openfl on C++ and Neko fires FOCUS_IN event immediately after text field creation */
-    private var __firstFocus : Bool = true;
-#end
 
     /**
      * User placed cursor in this input
      */
     private function __onFocusIn (e:FocusEvent) : Void
     {
-    #if (openfl && (cpp || neko) && !nme)
-        if (__firstFocus) {
-            __firstFocus = false;
-            return;
-        }
-    #end
+        #if (openfl && !nme && !flash)
+            if (stage.focus != this) return;
+        #end
 
         if (__onReceiveCursor != null) __onReceiveCursor();
     }
