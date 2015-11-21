@@ -46,8 +46,6 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
         __adjustHeightOneLine();
 
         __addListeners();
-
-        border = true;
     }
 
 
@@ -95,6 +93,7 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
         __suppressOnTextChange = true;
         this.text = text;
         __suppressOnTextChange = false;
+        __adjustHeightOneLine();
     }
 
 
@@ -209,7 +208,7 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
         __adjustHeightOneLine();
     }
 
-#if (openfl && (cpp || neko))
+#if (openfl && (cpp || neko) && !nme)
     /** Openfl hack: for some reason openfl on C++ and Neko fires FOCUS_IN event immediately after text field creation */
     private var __firstFocus : Bool = true;
 #end
@@ -219,7 +218,7 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
      */
     private function __onFocusIn (e:FocusEvent) : Void
     {
-    #if (openfl && (cpp || neko))
+    #if (openfl && (cpp || neko) && !nme)
         if (__firstFocus) {
             __firstFocus = false;
             return;
@@ -249,17 +248,16 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
             autoSize   = TextFieldAutoSize.LEFT;
             this.width = width;
             autoSize   = TextFieldAutoSize.NONE;
-        //has for non-flash targets of openfl&nme
+        //hack for non-flash targets of openfl&nme
         #else
-            if (text == '') {
-                if (!__suppressOnTextChange) {
-                __suppressOnTextChange = true;
-                __suppressOnTextChange = false;
-            }
             var metrics = getLineMetrics(0);
             height = metrics.height + 4;
+            #if (openfl && !nme)
+                if (text.length == 0) {
+                    height += defaultTextFormat.size + 2;
+                }
+            #end
         #end
-
         __updatePosition();
     }
 
