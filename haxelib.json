@@ -1,6 +1,6 @@
 {
     "name"         : "stablexui-flash",
-    "url"          : "https://github.com/RealyUniqueName/StablexUI-Flash",
+    "url"          : "https://github.com/StablexUI/Flash",
     "license"      : "MIT",
     "tags"         : ["flash", "stablexui", "ui", "gui"],
     "description"  : "Flash backend for StablexUI.",
