@@ -1,7 +1,8 @@
 package sx.backend.flash.skins;
 
+import flash.geom.Matrix;
 import sx.properties.Orientation;
-import sx.skins.base.PaintSkinBase;
+import sx.skins.base.TileSkinBase;
 import sx.Sx;
 
 using sx.tools.PropertiesTools;
@@ -9,10 +10,10 @@ using sx.Sx;
 
 
 /**
- * Fill widget background with plain color
+ * Tile widget background with specified bitmap
  *
  */
-class PaintSkin extends PaintSkinBase
+class TileSkin extends TileSkinBase
 {
 
 
@@ -33,6 +34,7 @@ class PaintSkin extends PaintSkinBase
             width  -= padding.sumPx(Horizontal);
             height -= padding.sumPx(Vertical);
         }
+
         if (Sx.pixelSnapping) {
             x = x.snap();
             y = y.snap();
@@ -44,8 +46,14 @@ class PaintSkin extends PaintSkinBase
             var borderWidth = Math.round(border.width.px);
             canvas.graphics.lineStyle(borderWidth, border.color, border.alpha, (borderWidth & 1 == 1));
         }
-        if (color >= 0) {
-            canvas.graphics.beginFill(color, alpha);
+        if (bitmapData != null) {
+            if (hasPadding()) {
+                var mx = new Matrix();
+                mx.translate(padding.left.px, padding.top.px);
+                canvas.graphics.beginBitmapFill(bitmapData, mx, true, smooth);
+            } else {
+                canvas.graphics.beginBitmapFill(bitmapData, null, true, smooth);
+            }
         }
 
         if (hasCorners()) {
@@ -55,10 +63,10 @@ class PaintSkin extends PaintSkinBase
             canvas.graphics.drawRect(x, y, width, height);
         }
 
-        if (color >= 0) {
+        if (bitmapData != null) {
             canvas.graphics.endFill();
         }
     }
 
 
-}//class PaintSkin
+}//class TileSkin
