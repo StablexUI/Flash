@@ -243,13 +243,7 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
             autoSize   = TextFieldAutoSize.NONE;
         //hack for non-flash targets of openfl&nme
         #else
-            var metrics = getLineMetrics(0);
-            height = metrics.height + 4;
-            #if (openfl && !nme)
-                if (text.length == 0) {
-                    height += defaultTextFormat.size + 2;
-                }
-            #end
+            height = __getLineHeight();
         #end
         __updatePosition();
     }
@@ -274,6 +268,30 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
         removeEventListener(Event.CHANGE, __onChangeEvent);
         removeEventListener(FocusEvent.FOCUS_IN, __onFocusIn);
         removeEventListener(FocusEvent.FOCUS_OUT, __onFocusOut);
+    }
+
+
+    /**
+     * Calculate height of single line
+     */
+    private inline function __getLineHeight () : Float
+    {
+        var height = 0.0;
+
+        var metrics = getLineMetrics(0);
+        #if (openfl && neko)
+            if (metrics.height == null) {
+                metrics.height = 0;
+            }
+        #end
+        height = metrics.height + 4;
+        #if (openfl && !nme)
+            if (text.length == 0) {
+                height += defaultTextFormat.size + 2;
+            }
+        #end
+
+        return height;
     }
 
 }//class TextInputRenderer
