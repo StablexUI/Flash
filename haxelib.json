@@ -4,7 +4,7 @@
     "license"      : "MIT",
     "tags"         : ["flash", "stablexui", "ui", "gui"],
     "description"  : "Flash backend for StablexUI.",
-    "version"      : "0.1.0",
+    "version"      : "2.0.0-alpha",
     "releasenote"  : "Initial release. ",
     "classPath"    : "src",
     "contributors" : ["RealyUniqueName"],
