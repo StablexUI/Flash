@@ -9,6 +9,8 @@ import sx.backend.interfaces.ITextInputRenderer;
 import sx.backend.TextFormat;
 import sx.widgets.TextInput;
 
+using sx.Sx;
+
 
 /**
  * Text rendering based on flash.text.TextField
@@ -190,8 +192,11 @@ class TextInputRenderer extends TextField implements ITextInputRenderer
      */
     private inline function __updatePosition () : Void
     {
-        x = __inputWidget.padding.left.px;
-        y = 0.5 * (__inputWidget.height.px - height);
+        var x = __inputWidget.padding.left.px;
+        var y = 0.5 * (__inputWidget.height.px - height);
+
+        this.x = x.snap();
+        this.y = y.snap();
     }
 
 

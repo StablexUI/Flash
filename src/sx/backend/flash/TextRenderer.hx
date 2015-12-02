@@ -10,6 +10,7 @@ import sx.properties.metric.Size;
 import sx.widgets.Text;
 import sx.widgets.Widget;
 
+using sx.Sx;
 
 
 /**
@@ -194,7 +195,8 @@ class TextRenderer extends TextField implements ITextRenderer
      */
     private inline function __updatePosition () : Void
     {
-        y = __textWidget.padding.top.px;
+        var y = __textWidget.padding.top.px;
+        var x = 0.0;
 
         switch (__align) {
             case TextFormatAlign.RIGHT:
@@ -204,6 +206,9 @@ class TextRenderer extends TextField implements ITextRenderer
             default :
                 x = __textWidget.padding.left.px;
         }
+
+        this.x = x.snap();
+        this.y = y.snap();
     }
 
 }//class TextRenderer
