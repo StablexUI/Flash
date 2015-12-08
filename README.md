@@ -11,7 +11,7 @@ The workaround for that bug will be found asap.
 Installation
 -----------------------
 ```
-haxelib git https://github.com/StablexUI/Flash stablexui-flash
+haxelib git stablexui-flash https://github.com/StablexUI/Flash master
 ```
 Include it in your hxml:
 ```
