@@ -18,11 +18,11 @@ class TextRendererTest extends TestCase
     {
         var label = new Text();
         label.autoSize = false;
-        label.renderer.wordWrap = false;
+        label.renderer.wordWrap = true;
 
         label.autoSize.width = true;
 
-        assert.isTrue(label.renderer.wordWrap);
+        assert.isFalse(label.renderer.wordWrap);
     }
 
 
@@ -30,11 +30,11 @@ class TextRendererTest extends TestCase
     public function wordWrap_setTextWidgetAutoSizeWidthFalse_setWordWrapFalse () : Void
     {
         var label = new Text();
-        label.renderer.wordWrap = true;
+        label.renderer.wordWrap = false;
 
         label.autoSize.width = false;
 
-        assert.isFalse(label.renderer.wordWrap);
+        assert.isTrue(label.renderer.wordWrap);
     }
 
 
@@ -42,11 +42,11 @@ class TextRendererTest extends TestCase
     public function wordWrap_setTextWidgetWidthDirectly_setWordWrapFalse () : Void
     {
         var label = new Text();
-        label.renderer.wordWrap = true;
+        label.renderer.wordWrap = false;
 
         label.width.dip = 100;
 
-        assert.isFalse(label.renderer.wordWrap);
+        assert.isTrue(label.renderer.wordWrap);
     }
 
 
