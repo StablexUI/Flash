@@ -120,6 +120,7 @@ class TextRenderer extends TextField implements ITextRenderer
      */
     public function setAvailableAreaWidth (width:Float) : Void
     {
+        wordWrap = true;
         this.width = width;
         __invokeOnResize();
     }
@@ -130,6 +131,7 @@ class TextRenderer extends TextField implements ITextRenderer
      */
     public function setAvailableAreaHeight (height:Float) : Void
     {
+        this.height = height;
         //does not care about available height
     }
 
@@ -152,9 +154,9 @@ class TextRenderer extends TextField implements ITextRenderer
     {
         if (widthChanged) {
             if (__textWidget.autoSize.width) {
-                if (!wordWrap) wordWrap = true;
+                wordWrap = false;
             } else {
-                if (wordWrap) wordWrap = false;
+                wordWrap = true;
             }
         }
     }
