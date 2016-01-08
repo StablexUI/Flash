@@ -25,5 +25,5 @@ install:
 
 script:
   - cd $TRAVIS_BUILD_DIR
-  - HXFLAGS="-cp src -lib stablexui-tests -swf-version 11.3 -D HUNIT_TEST_DIR=tests" ~/travis-hx/build.sh
+  - HXFLAGS="-cp src -lib stablexui-tests -swf-version 11.3 -main StablexUITests -D HUNIT_TEST_DIR=tests" ~/travis-hx/build.sh
   - ~/travis-hx/runtests.sh $FILENAME # this will set the $FILENAME defined on the environment variable to run the tests
