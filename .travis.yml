@@ -21,7 +21,6 @@ install:
   - travis_retry haxelib dev stablexui-core Core
   - travis_retry git clone https://github.com/StablexUI/Tests
   - travis_retry haxelib dev stablexui-tests Tests
-  - travis_retry haxelib list stablexui-tests
 
 script:
   - cd $TRAVIS_BUILD_DIR
