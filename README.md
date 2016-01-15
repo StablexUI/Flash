@@ -1,4 +1,4 @@
-StablexUI Flash [![Build Status](https://travis-ci.org/StablexUI/Flash.svg)](https://travis-ci.org/StablexUI/Flash)
+StablexUI Flash [![Build Status](https://travis-ci.org/StablexUI/Flash.svg?branch=master)](https://travis-ci.org/StablexUI/Flash)
 =======================
 This library provides a backend for using StablexUI with OpenFL, NME or pure flash.
 
