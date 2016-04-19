@@ -4,6 +4,7 @@ import flash.display.DisplayObject;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.Lib;
+import sx.backend.Assets;
 import sx.backend.Backend;
 import sx.backend.BitmapRenderer;
 import sx.backend.interfaces.IBackendManager;
@@ -31,6 +32,9 @@ class BackendManager implements IBackendManager
     static private var __framesHandled : Bool = false;
     /** Widget for `sx.Sx.root` */
     static private var __root : Widget;
+
+    /** Assets manager instance */
+    private var __assets : Assets;
 
 
     /**
@@ -135,6 +139,28 @@ class BackendManager implements IBackendManager
         if (__root == null) __setupRoot();
 
         return __root;
+    }
+
+
+    /**
+     * Get assets manager.
+     */
+    public function getAssets () : Assets
+    {
+        if (__assets == null) {
+            __assets = new Assets();
+        }
+
+        return __assets;
+    }
+
+
+    /**
+     * Set custom assets manager.
+     */
+    public function setAssets (assets:Assets) : Void
+    {
+        __assets = assets;
     }
 
 
